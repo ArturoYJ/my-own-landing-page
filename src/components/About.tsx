@@ -39,6 +39,10 @@ export default function About() {
         padding: "7rem 2rem",
         position: "relative",
         zIndex: 2,
+        scrollSnapAlign: "start",
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
       }}
     >
       <div
@@ -122,18 +126,17 @@ export default function About() {
           <div
             style={{
               background: "var(--bg-card)",
-              border: "1px solid var(--border)",
               borderRadius: "var(--radius-card)",
-              padding: "1.5rem",
-              transition: "border-color 0.3s",
+              padding: "1.75rem",
+              transition: "all 0.4s var(--transition-base)",
             }}
             onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLDivElement).style.borderColor =
-                "var(--border-hover)")
+              ((e.currentTarget as HTMLDivElement).style.background =
+                "var(--bg-elevated)")
             }
             onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLDivElement).style.borderColor =
-                "var(--border)")
+              ((e.currentTarget as HTMLDivElement).style.background =
+                "var(--bg-card)")
             }
           >
             <div className="section-label" style={{ marginBottom: "1rem" }}>
@@ -185,9 +188,9 @@ export default function About() {
                     fontSize: "0.65rem",
                     padding: "3px 8px",
                     borderRadius: "4px",
-                    background: "rgba(110,231,183,0.08)",
+                    background: "rgba(167,139,250,0.08)",
                     color: "var(--accent-primary)",
-                    border: "1px solid rgba(110,231,183,0.15)",
+                    border: "1px solid rgba(167,139,250,0.15)",
                   }}
                 >
                   {area}

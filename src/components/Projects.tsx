@@ -13,7 +13,7 @@ const projects = [
       "Evolución de monolito a SOA. Validación con Zod que redujo errores en 70%. BD PostgreSQL normalizada con 7 entidades para +1,500 registros de inventario.",
     tags: ["Next.js", "Express.js", "PostgreSQL", "Docker", "AWS"],
     year: "Mar 2026",
-    accent: "#6ee7b7",
+    accent: "#a78bfa",
     image: "/project-placeholder.png",
     // Bg: alternating contrast via bg color
     bgDark: false,
@@ -26,7 +26,7 @@ const projects = [
       "Centralización de datos de especies para el Zoológico de Chiapas. API REST en Kotlin/Ktor bajo Arquitectura Hexagonal con desacoplamiento total de lógica de negocio.",
     tags: ["Angular", "Kotlin", "Ktor", "PostgreSQL"],
     year: "2025 – Present",
-    accent: "#818cf8",
+    accent: "#a78bfa",
     image: "/project-placeholder.png",
     bgDark: true,
   },
@@ -38,7 +38,7 @@ const projects = [
       "App nativa Android para gestión de medicamentos. Arquitectura MVVM estricta con ViewModel y LiveData, garantizando persistencia de estado ante cambios de configuración.",
     tags: ["Kotlin", "Jetpack Compose", "Firebase", "MVVM"],
     year: "Nov 2025",
-    accent: "#f9a8d4",
+    accent: "#a78bfa",
     image: "/project-placeholder.png",
     bgDark: false,
   },
@@ -80,7 +80,17 @@ export default function Projects() {
       style={{ position: "relative", zIndex: 2 }}
     >
       {/* Section header */}
-      <div style={{ padding: "7rem 2rem 4rem", maxWidth: "1100px", margin: "0 auto" }}>
+      <div style={{ 
+        padding: "2rem", 
+        maxWidth: "1100px", 
+        margin: "0 auto",
+        scrollSnapAlign: "start",
+        scrollSnapStop: "always",
+        minHeight: "100vh", // Force full viewport for automatic snap transition
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}>
         <div className="section-label">
           <span className="accent-line" />
           Proyectos Destacados
@@ -88,16 +98,21 @@ export default function Projects() {
         <h2
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
+            fontSize: "clamp(1.8rem, 5vw, 3.5rem)", // Bigger for full-page feel
             fontWeight: 700,
             letterSpacing: "-0.03em",
-            lineHeight: 1.1,
-            marginBottom: "0.5rem",
+            lineHeight: 1,
+            marginBottom: "1rem",
           }}
         >
-          Lo que he construido
+          Lo que he <br /> construido
         </h2>
-        <p style={{ color: "var(--text-secondary)", fontSize: "1rem", maxWidth: "480px" }}>
+        <p style={{ 
+          color: "var(--text-secondary)", 
+          fontSize: "1.1rem", 
+          maxWidth: "540px",
+          lineHeight: 1.6 
+        }}>
           Proyectos reales con arquitecturas limpias, despliegue cloud y foco en la mantenibilidad.
         </p>
       </div>
@@ -116,8 +131,8 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
   const rowRef = useRef<HTMLDivElement>(null);
   const isEven = index % 2 === 0;
 
-  // Subtle contrast: alternate between two very close dark tones
-  const bg = project.bgDark ? "rgba(255,255,255,0.025)" : "transparent";
+  // No-Line Rule: Contrast via tonal shifts rather than solid dividers
+  const bg = project.bgDark ? "var(--bg-void)" : "var(--bg-base)";
 
   return (
     <div
@@ -127,21 +142,24 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
         background: bg,
         position: "relative",
         opacity: 0,
+        scrollSnapAlign: "start",
+        scrollSnapStop: "always",
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center"
       }}
     >
-      {/* Accent gradient edge — top of each row except first */}
-      {index > 0 && (
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            right: 0,
-            height: "1px",
-            background: `linear-gradient(90deg, transparent, ${project.accent}30, transparent)`,
-          }}
-        />
-      )}
+      {/* Structural contrast edge - using color shift instead of 1px border */}
+      <div 
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          height: "1px",
+          background: "linear-gradient(90deg, transparent, rgba(206,189,255,0.05), transparent)",
+        }}
+      />
 
       <div
         style={{

@@ -5,19 +5,19 @@ import { useEffect, useRef } from "react";
 const stackGroups = [
   {
     category: "Backend",
-    color: "#6ee7b7",
+    color: "#a78bfa",
     icon: "⬡",
     skills: ["Node.js", "Express.js", "TypeScript", "Kotlin", "Ktor"],
   },
   {
     category: "Frontend",
-    color: "#818cf8",
+    color: "#a78bfa",
     icon: "◈",
     skills: ["React.js", "Next.js", "Angular", "JavaScript", "TypeScript"],
   },
   {
     category: "Bases de Datos",
-    color: "#f9a8d4",
+    color: "#a78bfa",
     icon: "◫",
     skills: ["PostgreSQL", "MySQL", "Firebase"],
   },
@@ -87,6 +87,10 @@ export default function Stack() {
         background: "var(--bg-surface)",
         position: "relative",
         zIndex: 2,
+        scrollSnapAlign: "start",
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
       }}
     >
       <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
@@ -122,7 +126,7 @@ export default function Stack() {
           style={{
             display: "grid",
             gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-            gap: "1.25rem",
+            gap: "1rem",
           }}
         >
           {stackGroups.map((group) => (
@@ -131,20 +135,19 @@ export default function Stack() {
               className="stack-group"
               style={{
                 background: "var(--bg-card)",
-                border: "1px solid var(--border)",
                 borderRadius: "var(--radius-card)",
-                padding: "1.5rem",
+                padding: "1.75rem",
                 opacity: 0,
-                transition: "border-color 0.3s, transform 0.3s",
+                transition: "all 0.4s var(--transition-base)",
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLDivElement;
-                el.style.borderColor = `${group.color}33`;
-                el.style.transform = "translateY(-2px)";
+                el.style.background = "var(--bg-elevated)";
+                el.style.transform = "translateY(-4px)";
               }}
               onMouseLeave={(e) => {
                 const el = e.currentTarget as HTMLDivElement;
-                el.style.borderColor = "var(--border)";
+                el.style.background = "var(--bg-card)";
                 el.style.transform = "translateY(0)";
               }}
             >

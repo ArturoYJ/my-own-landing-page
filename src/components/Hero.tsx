@@ -73,6 +73,9 @@ export default function Hero() {
         padding: "0 2rem",
         position: "relative",
         zIndex: 2,
+        scrollSnapAlign: "start",
+        scrollSnapStop: "always",
+        background: "var(--bg-base)", // Correct surface as per Stitch
       }}
     >
       <div
@@ -96,16 +99,15 @@ export default function Hero() {
               display: "inline-flex",
               alignItems: "center",
               gap: "8px",
-              background: "rgba(110,231,183,0.08)",
-              border: "1px solid rgba(110,231,183,0.2)",
-              borderRadius: "100px",
-              padding: "4px 14px",
+              background: "rgba(167,139,250,0.06)",
+              borderRadius: "4px", // Precision: 4px
+              padding: "4px 12px",
               marginBottom: "1.5rem",
               opacity: 0,
             }}
           >
-            <span style={{ width: "6px", height: "6px", borderRadius: "50%", background: "var(--accent-primary)", display: "inline-block", animation: "pulse 2s ease-in-out infinite" }} />
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.7rem", color: "var(--accent-primary)", letterSpacing: "0.1em" }}>
+            <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "var(--accent-primary)", display: "inline-block", animation: "pulse 2s ease-in-out infinite" }} />
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "var(--accent-primary)", letterSpacing: "0.1em", textTransform: "uppercase" }}>
               Disponible para proyectos
             </span>
           </div>
@@ -113,19 +115,27 @@ export default function Hero() {
           {/* Name */}
           <h1
             className="hero-name"
-            style={{ fontFamily: "var(--font-display)", fontSize: "clamp(2.5rem, 6vw, 5rem)", fontWeight: 700, lineHeight: 1.05, letterSpacing: "-0.03em", marginBottom: "0.5rem", opacity: 0 }}
+            style={{ 
+              fontFamily: "var(--font-display)", 
+              fontSize: "clamp(3rem, 8vw, 6.5rem)", // Bold architectural scale
+              fontWeight: 700, 
+              lineHeight: 0.9, 
+              letterSpacing: "-0.04em", 
+              marginBottom: "1rem", 
+              opacity: 0 
+            }}
           >
             Arturo
             <br />
-            <span style={{ color: "var(--text-muted)" }}>Yion Jaime</span>
+            <span style={{ color: "var(--text-muted)", opacity: 0.8 }}>Yion Jaime</span>
           </h1>
 
           {/* Role typewriter */}
-          <div className="hero-role-line" style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "1.5rem", opacity: 0 }}>
-            <span style={{ fontFamily: "var(--font-mono)", fontSize: "clamp(0.9rem, 2vw, 1.1rem)", color: "var(--accent-secondary)" }}>&gt;_</span>
+          <div className="hero-role-line" style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "2rem", opacity: 0 }}>
+            <span style={{ fontFamily: "var(--font-mono)", fontSize: "clamp(0.85rem, 1.5vw, 1rem)", color: "var(--primary)" }}>&gt;_</span>
             <span
               ref={roleRef}
-              style={{ fontFamily: "var(--font-mono)", fontSize: "clamp(0.9rem, 2vw, 1.1rem)", color: "var(--text-secondary)", borderRight: "2px solid var(--accent-primary)", paddingRight: "4px", animation: "blink 1s step-end infinite" }}
+              style={{ fontFamily: "var(--font-mono)", fontSize: "clamp(0.85rem, 1.5vw, 1rem)", color: "var(--text-secondary)", borderRight: "2px solid var(--accent-primary)", paddingRight: "4px", animation: "blink 1s step-end infinite" }}
             >
               Software Engineer
             </span>
@@ -134,21 +144,30 @@ export default function Hero() {
           {/* Description */}
           <p
             className="hero-desc"
-            style={{ fontSize: "1rem", color: "var(--text-secondary)", lineHeight: 1.7, maxWidth: "520px", marginBottom: "2.5rem", opacity: 0 }}
+            style={{ fontSize: "1rem", color: "var(--text-secondary)", lineHeight: 1.8, maxWidth: "540px", marginBottom: "3rem", opacity: 0 }}
           >
-            Especializado en arquitecturas escalables bajo principios de{" "}
-            <strong style={{ color: "var(--text-primary)", fontWeight: 500 }}>Clean Architecture</strong> y{" "}
-            <strong style={{ color: "var(--text-primary)", fontWeight: 500 }}>SOLID</strong>.
-            Stack PERN con despliegue en AWS. Apasionado por resolver problemas desde sus fundamentos teóricos.
+            Sistemas robustos bajo principios de <strong style={{ color: "var(--text-primary)", fontWeight: 500 }}>Clean Architecture</strong> y <strong style={{ color: "var(--text-primary)", fontWeight: 500 }}>SOLID</strong>. 
+            Especializado en el stack PERN con infraestructura en AWS. 
+            Resolviendo problemas desde sus fundamentos técnicos.
           </p>
 
           {/* CTAs */}
-          <div className="hero-ctas" style={{ display: "flex", gap: "1rem", flexWrap: "wrap", opacity: 0 }}>
+          <div className="hero-ctas" style={{ display: "flex", gap: "1.25rem", flexWrap: "wrap", opacity: 0 }}>
             <a
               href="#proyectos"
-              style={{ padding: "0.75rem 1.75rem", background: "var(--accent-primary)", color: "#080808", borderRadius: "8px", fontWeight: 600, fontSize: "0.9rem", textDecoration: "none", transition: "all 0.2s cubic-bezier(0.4,0,0.2,1)" }}
-              onMouseEnter={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.transform = "translateY(-2px)"; el.style.boxShadow = "0 8px 30px rgba(110,231,183,0.3)"; }}
-              onMouseLeave={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.transform = "translateY(0)"; el.style.boxShadow = "none"; }}
+              style={{ 
+                padding: "0.85rem 2rem", 
+                background: "linear-gradient(135deg, var(--primary), var(--primary-container))", 
+                color: "#131313", 
+                borderRadius: "4px", 
+                fontWeight: 600, 
+                fontSize: "0.85rem", 
+                textDecoration: "none", 
+                transition: "all 0.3s var(--transition-base)",
+                boxShadow: "0 0 40px rgba(167,139,250,0.1)"
+              }}
+              onMouseEnter={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.transform = "translateY(-3px) scale(1.02)"; el.style.boxShadow = "0 10px 50px rgba(167,139,250,0.25)"; }}
+              onMouseLeave={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.transform = "translateY(0) scale(1)"; el.style.boxShadow = "0 0 40px rgba(167,139,250,0.1)"; }}
             >
               Ver proyectos
             </a>
@@ -156,20 +175,29 @@ export default function Hero() {
               href="https://github.com/ArturoYJ"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ padding: "0.75rem 1.75rem", background: "transparent", color: "var(--text-primary)", borderRadius: "8px", fontWeight: 500, fontSize: "0.9rem", textDecoration: "none", border: "1px solid var(--border)", transition: "all 0.2s cubic-bezier(0.4,0,0.2,1)" }}
-              onMouseEnter={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.borderColor = "var(--border-hover)"; el.style.transform = "translateY(-2px)"; }}
-              onMouseLeave={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.borderColor = "var(--border)"; el.style.transform = "translateY(0)"; }}
+              style={{ 
+                padding: "0.85rem 2rem", 
+                borderRadius: "4px", 
+                fontWeight: 500, 
+                fontSize: "0.85rem", 
+                textDecoration: "none", 
+                border: "1px solid rgba(148, 142, 157, 0.15)", // Ghost border
+                color: "var(--text-primary)",
+                transition: "all 0.3s var(--transition-base)" 
+              }}
+              onMouseEnter={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "var(--bg-card)"; el.style.transform = "translateY(-3px)"; }}
+              onMouseLeave={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "transparent"; el.style.transform = "translateY(0)"; }}
             >
-              GitHub →
+              GitHub <span>→</span>
             </a>
           </div>
 
           {/* Stats */}
-          <div className="hero-stats" style={{ display: "flex", gap: "2.5rem", marginTop: "3rem", paddingTop: "2rem", borderTop: "1px solid var(--border)" }}>
+          <div className="hero-stats" style={{ display: "flex", gap: "3.5rem", marginTop: "4rem", paddingTop: "2rem", borderTop: "1px solid rgba(148, 142, 157, 0.05)" }}>
             {[{ value: "3+", label: "Proyectos" }, { value: "PERN", label: "Stack" }, { value: "AWS", label: "Cloud" }].map((stat) => (
               <div key={stat.label} className="stat-item" style={{ opacity: 0 }}>
-                <div style={{ fontFamily: "var(--font-mono)", fontSize: "1.25rem", fontWeight: 500, color: "var(--accent-primary)", lineHeight: 1 }}>{stat.value}</div>
-                <div style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "4px", letterSpacing: "0.05em" }}>{stat.label}</div>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: "1.35rem", fontWeight: 600, color: "var(--accent-primary)", lineHeight: 1 }}>{stat.value}</div>
+                <div style={{ fontSize: "0.7rem", color: "var(--text-muted)", marginTop: "6px", letterSpacing: "0.1em", textTransform: "uppercase" }}>{stat.label}</div>
               </div>
             ))}
           </div>
@@ -177,10 +205,10 @@ export default function Hero() {
 
         {/* Right — Photo */}
         <div className="hero-photo" style={{ position: "relative", opacity: 0, flexShrink: 0 }}>
-          <div style={{ position: "absolute", inset: "-8px", borderRadius: "50%", border: "1px solid rgba(110,231,183,0.2)", animation: "spin 20s linear infinite" }} />
-          <div style={{ position: "absolute", inset: "-20px", borderRadius: "50%", border: "1px dashed rgba(110,231,183,0.08)", animation: "spin 35s linear infinite reverse" }} />
-          <div style={{ width: "clamp(180px, 20vw, 260px)", height: "clamp(180px, 20vw, 260px)", borderRadius: "50%", overflow: "hidden", border: "2px solid var(--border)", position: "relative" }}>
-            <Image src="/foto.jpg" alt="Arturo Yion Jaime — Software Engineer" fill sizes="(max-width: 768px) 180px, 260px" style={{ objectFit: "cover", objectPosition: "center top" }} priority />
+          <div style={{ position: "absolute", inset: "-12px", borderRadius: "50%", border: "1px solid rgba(167,139,250,0.1)", animation: "spin 25s linear infinite" }} />
+          <div style={{ position: "absolute", inset: "-30px", borderRadius: "50%", border: "1px dashed rgba(167,139,250,0.04)", animation: "spin 40s linear infinite reverse" }} />
+          <div style={{ width: "clamp(220px, 25vw, 320px)", height: "clamp(220px, 25vw, 320px)", borderRadius: "50%", overflow: "hidden", position: "relative", zIndex: 1, filter: "grayscale(20%) brightness(90%)" }}>
+            <Image src="/foto.jpg" alt="Arturo Yion Jaime — Software Engineer" fill sizes="(max-width: 768px) 220px, 320px" style={{ objectFit: "cover", objectPosition: "center top" }} priority />
           </div>
         </div>
       </div>

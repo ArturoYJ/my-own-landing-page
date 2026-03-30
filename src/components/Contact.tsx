@@ -8,7 +8,7 @@ const contactLinks = [
     value: "yionjaime@gmail.com",
     href: "mailto:yionjaime@gmail.com",
     icon: "✉",
-    accent: "#6ee7b7",
+    accent: "#a78bfa",
     description: "Escríbeme directamente",
   },
   {
@@ -16,7 +16,7 @@ const contactLinks = [
     value: "linkedin.com/in/arturo-yion",
     href: "https://linkedin.com/in/arturo-yion",
     icon: "in",
-    accent: "#818cf8",
+    accent: "#a78bfa",
     description: "Perfil profesional",
     mono: true,
   },
@@ -25,7 +25,7 @@ const contactLinks = [
     value: "github.com/ArturoYJ",
     href: "https://github.com/ArturoYJ",
     icon: "⌥",
-    accent: "#f9a8d4",
+    accent: "#a78bfa",
     description: "Código y proyectos",
   },
 ];
@@ -73,6 +73,10 @@ export default function Contact() {
         background: "var(--bg-surface)",
         position: "relative",
         zIndex: 2,
+        scrollSnapAlign: "start",
+        minHeight: "100vh",
+        display: "flex",
+        alignItems: "center",
       }}
     >
       <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
@@ -125,24 +129,23 @@ export default function Contact() {
                 alignItems: "center",
                 gap: "1.25rem",
                 background: "var(--bg-card)",
-                border: "1px solid var(--border)",
                 borderRadius: "var(--radius-card)",
-                padding: "1.5rem",
+                padding: "1.75rem",
                 textDecoration: "none",
-                transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)",
+                transition: "all 0.4s var(--transition-base)",
                 opacity: 0,
                 color: "inherit",
                 cursor: "pointer",
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLAnchorElement;
-                el.style.borderColor = `${link.accent}40`;
-                el.style.transform = "translateY(-3px)";
-                el.style.boxShadow = `0 12px 30px rgba(0,0,0,0.3), 0 0 0 1px ${link.accent}20`;
+                el.style.background = "var(--bg-elevated)";
+                el.style.transform = "translateY(-4px)";
+                el.style.boxShadow = `0 12px 30px rgba(0,0,0,0.4), 0 0 0 1px rgba(167,139,250,0.1)`;
               }}
               onMouseLeave={(e) => {
                 const el = e.currentTarget as HTMLAnchorElement;
-                el.style.borderColor = "var(--border)";
+                el.style.background = "var(--bg-card)";
                 el.style.transform = "translateY(0)";
                 el.style.boxShadow = "none";
               }}

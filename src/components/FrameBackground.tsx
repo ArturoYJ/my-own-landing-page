@@ -5,7 +5,7 @@ import { useEffect, useRef } from "react";
 const TOTAL_FRAMES = 240;
 const TARGET_FPS = 24;
 const FRAME_INTERVAL = 1000 / TARGET_FPS;
-const OPACITY = 0.15;
+const OPACITY = 0.40;
 
 /**
  * Genera la ruta de un frame con padding de 3 dígitos.
@@ -39,23 +39,9 @@ export default function FrameBackground() {
     let loadedCount = 0;
     let firstFrameReady = false;
 
-    for (let i = 1; i <= TOTAL_FRAMES; i++) {
-      const img = new window.Image();
-      img.src = frameSrc(i);
-      img.onload = () => {
-        loadedCount++;
-        // Draw first frame as soon as it's ready (instant start)
-        if (i === 1 && !firstFrameReady) {
-          firstFrameReady = true;
-          drawFrame(img);
-        }
-      };
-      images.push(img);
-    }
-
-    // ── objectFit: cover draw helper ──
+    // Draw helper with closure access to canvas/ctx
     function drawFrame(img: HTMLImageElement) {
-      if (!canvas || !ctx || img.naturalWidth === 0) return;
+      if (!canvas || !ctx || !img || img.naturalWidth === 0) return;
 
       const canvasAspect = canvas.width / canvas.height;
       const imgAspect = img.naturalWidth / img.naturalHeight;
@@ -63,13 +49,11 @@ export default function FrameBackground() {
       let drawW: number, drawH: number, drawX: number, drawY: number;
 
       if (imgAspect > canvasAspect) {
-        // Image is wider — fit by height
         drawH = canvas.height;
         drawW = drawH * imgAspect;
         drawX = (canvas.width - drawW) / 2;
         drawY = 0;
       } else {
-        // Image is taller — fit by width
         drawW = canvas.width;
         drawH = drawW / imgAspect;
         drawX = 0;
@@ -80,52 +64,98 @@ export default function FrameBackground() {
       ctx.drawImage(img, drawX, drawY, drawW, drawH);
     }
 
-    // ── Animation loop ──
-    let currentFrame = 0;
-    let lastTime = 0;
-    let rafId: number;
+    for (let i = 1; i <= TOTAL_FRAMES; i++) {
+      const img = new window.Image();
+      img.src = frameSrc(i);
+      img.onload = () => {
+        loadedCount++;
+        if (i === 1 && !firstFrameReady) {
+          firstFrameReady = true;
+          drawFrame(img);
+        }
+      };
+      images.push(img);
+    }
 
-    function animate(timestamp: number) {
-      rafId = requestAnimationFrame(animate);
+    // ── Scroll-driven Logic ──
+    let ticking = false;
 
-      // Throttle to TARGET_FPS
-      if (timestamp - lastTime < FRAME_INTERVAL) return;
-      lastTime = timestamp;
+    function updateFrameOnScroll() {
+      const scrollTop = window.scrollY;
+      const vh = window.innerHeight;
+      
+      // ANIMATION: Complete 240 frames within 1 full viewport (High speed)
+      const animationRange = vh; 
+      const scrollFraction = Math.max(0, Math.min(1, scrollTop / animationRange));
+      
+      const frameIndex = Math.min(
+        TOTAL_FRAMES - 1,
+        Math.floor(scrollFraction * (TOTAL_FRAMES - 1))
+      );
 
-      const img = images[currentFrame];
+      const img = images[frameIndex];
       if (img && img.complete && img.naturalWidth > 0) {
         drawFrame(img);
       }
 
-      currentFrame = (currentFrame + 1) % TOTAL_FRAMES;
+      // VISIBILITY: Fade out canvas as we leave the Hero section
+      // Starts fading at 70% of vh, fully gone at 100% of vh
+      const fadeStart = vh * 0.7;
+      const fadeEnd = vh;
+      let dynamicOpacity = OPACITY;
+
+      if (scrollTop > fadeStart) {
+        const fadeProgress = (scrollTop - fadeStart) / (fadeEnd - fadeStart);
+        dynamicOpacity = OPACITY * (1 - Math.max(0, Math.min(1, fadeProgress)));
+      }
+
+      if (canvas) {
+        canvas.style.opacity = dynamicOpacity.toString();
+        // Hide completely if opacity is 0 for performance
+        canvas.style.display = dynamicOpacity <= 0 ? "none" : "block";
+      }
+      
+      ticking = false;
     }
 
-    // Start loop after a tiny delay to allow first frame to load
-    const startTimeout = setTimeout(() => {
-      rafId = requestAnimationFrame(animate);
-    }, 100);
+    function handleScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(updateFrameOnScroll);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
 
     return () => {
-      cancelAnimationFrame(rafId);
-      clearTimeout(startTimeout);
       window.removeEventListener("resize", resize);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
   return (
-    <canvas
-      ref={canvasRef}
-      aria-hidden="true"
+    <div
       style={{
         position: "fixed",
-        inset: 0,
-        width: "100vw",
-        height: "100vh",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
         zIndex: 0,
-        opacity: OPACITY,
         pointerEvents: "none",
-        display: "block",
+        background: "var(--bg-void)",
+        opacity: OPACITY,
+        transition: "opacity 0.8s ease-out",
       }}
-    />
+    >
+      <canvas
+        ref={canvasRef}
+        style={{
+          width: "100%",
+          height: "100%",
+          display: "block",
+        }}
+      />
+    </div>
   );
 }

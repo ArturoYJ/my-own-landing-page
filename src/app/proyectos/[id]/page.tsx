@@ -11,7 +11,7 @@ const projects = {
     title: "GlamStock",
     subtitle: "Sistema de Inventarios para PyMEs",
     year: "Mar 2026",
-    accent: "#6ee7b7",
+    accent: "#a78bfa",
     image: "/project-placeholder.png",
     overview:
       "GlamStock es un sistema de gestión de inventarios diseñado específicamente para pequeñas y medianas empresas del sector retail y cosmético. Nació como un monolito y evolucionó a una Arquitectura Orientada a Servicios (SOA) para mejorar su escalabilidad y mantenimiento.",
@@ -35,7 +35,7 @@ const projects = {
     title: "Hugin Munin",
     subtitle: "ZOOMAT — Sistema de Gestión de Especies",
     year: "2025 – Present",
-    accent: "#818cf8",
+    accent: "#a78bfa",
     image: "/project-placeholder.png",
     overview:
       "Hugin Munin es una plataforma de gestión diseñada para el Zoológico Miguel Álvarez del Toro (ZOOMAT) en Chiapas. Soluciona el problema de la descentralización y pérdida de registros de especies en cautiverio mediante una API robusta y un cliente Angular.",
@@ -59,7 +59,7 @@ const projects = {
     title: "PillUp",
     subtitle: "Sistema de Salud Nativo — Android",
     year: "Nov 2025",
-    accent: "#f9a8d4",
+    accent: "#a78bfa",
     image: "/project-placeholder.png",
     overview:
       "PillUp es una aplicación móvil nativa para Android orientada a la gestión personal de medicamentos y seguimiento de salud. Implementa una Arquitectura MVVM estricta que garantiza la persistencia del estado de la aplicación ante cualquier cambio de configuración del dispositivo.",
