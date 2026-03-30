@@ -1,43 +1,46 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
 const projects = [
   {
     id: "glamstock",
     title: "GlamStock",
     subtitle: "Sistema de Inventarios para PyMEs",
-    description:
-      "Evolución de monolito a Arquitectura Orientada a Servicios (SOA), separando infraestructura, API y cliente. Validación con Zod que redujo errores de integración en 70%. BD PostgreSQL normalizada con 7 entidades para +1,500 registros.",
-    tags: ["Next.js", "Express.js", "PostgreSQL", "Docker", "AWS EC2", "AWS RDS"],
-    highlights: ["SOA Migration", "Zod Validation", "+1,500 records", "70% less errors"],
+    shortDesc:
+      "Evolución de monolito a SOA. Validación con Zod que redujo errores en 70%. BD PostgreSQL normalizada con 7 entidades para +1,500 registros de inventario.",
+    tags: ["Next.js", "Express.js", "PostgreSQL", "Docker", "AWS"],
     year: "Mar 2026",
-    link: "https://github.com/ArturoYJ",
     accent: "#6ee7b7",
+    image: "/project-placeholder.png",
+    // Bg: alternating contrast via bg color
+    bgDark: false,
   },
   {
     id: "huginmunin",
     title: "Hugin Munin",
-    subtitle: "ZOOMAT — Sistema de Gestión de Especies",
-    description:
-      "Solución a la descentralización y pérdida de reportes/registros de especies en cautiverio. API REST construida con Kotlin/Ktor bajo Arquitectura Hexagonal, garantizando desacoplamiento total de la lógica de negocio.",
-    tags: ["Angular", "Kotlin", "Ktor", "PostgreSQL", "Hexagonal Architecture"],
-    highlights: ["Hexagonal Arch", "Zero logic coupling", "Species tracking"],
+    subtitle: "ZOOMAT — Gestión de Especies en Cautiverio",
+    shortDesc:
+      "Centralización de datos de especies para el Zoológico de Chiapas. API REST en Kotlin/Ktor bajo Arquitectura Hexagonal con desacoplamiento total de lógica de negocio.",
+    tags: ["Angular", "Kotlin", "Ktor", "PostgreSQL"],
     year: "2025 – Present",
-    link: "https://github.com/ArturoYJ",
     accent: "#818cf8",
+    image: "/project-placeholder.png",
+    bgDark: true,
   },
   {
     id: "pillup",
     title: "PillUp",
     subtitle: "Sistema de Salud Nativo — Android",
-    description:
-      "Aplicación nativa Android para gestión de medicamentos y salud. Implementación estricta de Arquitectura MVVM con ViewModel y LiveData, garantizando persistencia del estado ante cambios de configuración del dispositivo.",
+    shortDesc:
+      "App nativa Android para gestión de medicamentos. Arquitectura MVVM estricta con ViewModel y LiveData, garantizando persistencia de estado ante cambios de configuración.",
     tags: ["Kotlin", "Jetpack Compose", "Firebase", "MVVM"],
-    highlights: ["MVVM Pattern", "LiveData", "State persistence", "Native Android"],
     year: "Nov 2025",
-    link: "https://github.com/ArturoYJ",
     accent: "#f9a8d4",
+    image: "/project-placeholder.png",
+    bgDark: false,
   },
 ];
 
@@ -49,14 +52,13 @@ export default function Projects() {
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            const cards = entry.target.querySelectorAll(".project-card");
             import("animejs").then((mod) => {
               const { animate, stagger } = mod;
-              animate(cards, {
+              animate(".project-row", {
                 opacity: [0, 1],
-                translateY: [40, 0],
-                delay: stagger(150),
-                duration: 700,
+                translateY: [30, 0],
+                delay: stagger(180),
+                duration: 800,
                 ease: "outExpo",
               });
             });
@@ -64,7 +66,7 @@ export default function Projects() {
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.1 }
     );
 
     if (sectionRef.current) observer.observe(sectionRef.current);
@@ -75,224 +77,260 @@ export default function Projects() {
     <section
       id="proyectos"
       ref={sectionRef}
-      style={{
-        padding: "7rem 2rem",
-        position: "relative",
-        zIndex: 2,
-      }}
+      style={{ position: "relative", zIndex: 2 }}
     >
-      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+      {/* Section header */}
+      <div style={{ padding: "7rem 2rem 4rem", maxWidth: "1100px", margin: "0 auto" }}>
         <div className="section-label">
           <span className="accent-line" />
           Proyectos Destacados
         </div>
-
         <h2
           style={{
             fontFamily: "var(--font-display)",
             fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
             fontWeight: 700,
             letterSpacing: "-0.03em",
-            marginBottom: "0.75rem",
             lineHeight: 1.1,
+            marginBottom: "0.5rem",
           }}
         >
           Lo que he construido
         </h2>
-        <p
-          style={{
-            color: "var(--text-secondary)",
-            fontSize: "1rem",
-            marginBottom: "3.5rem",
-            maxWidth: "500px",
-          }}
-        >
-          Proyectos reales con arquitecturas limpias, despliegue cloud y foco en
-          la mantenibilidad a largo plazo.
+        <p style={{ color: "var(--text-secondary)", fontSize: "1rem", maxWidth: "480px" }}>
+          Proyectos reales con arquitecturas limpias, despliegue cloud y foco en la mantenibilidad.
         </p>
-
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-            gap: "1.5rem",
-          }}
-        >
-          {projects.map((project) => (
-            <ProjectCard key={project.id} project={project} />
-          ))}
-        </div>
       </div>
+
+      {/* Project rows — each one is a full-width horizontal band */}
+      {projects.map((project, idx) => (
+        <ProjectRow key={project.id} project={project} index={idx} />
+      ))}
     </section>
   );
 }
 
 type Project = (typeof projects)[0];
 
-function ProjectCard({ project }: { project: Project }) {
-  const cardRef = useRef<HTMLDivElement>(null);
+function ProjectRow({ project, index }: { project: Project; index: number }) {
+  const rowRef = useRef<HTMLDivElement>(null);
+  const isEven = index % 2 === 0;
 
-  const handleMouseEnter = () => {
-    const el = cardRef.current;
-    if (!el) return;
-    el.style.borderColor = `${project.accent}33`;
-    el.style.transform = "translateY(-4px)";
-    el.style.boxShadow = `0 20px 40px rgba(0,0,0,0.4), 0 0 0 1px ${project.accent}22`;
-  };
-
-  const handleMouseLeave = () => {
-    const el = cardRef.current;
-    if (!el) return;
-    el.style.borderColor = "var(--border)";
-    el.style.transform = "translateY(0)";
-    el.style.boxShadow = "none";
-  };
+  // Subtle contrast: alternate between two very close dark tones
+  const bg = project.bgDark ? "rgba(255,255,255,0.025)" : "transparent";
 
   return (
     <div
-      ref={cardRef}
-      className="project-card"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      ref={rowRef}
+      className="project-row"
       style={{
-        background: "var(--bg-card)",
-        border: "1px solid var(--border)",
-        borderRadius: "var(--radius-card)",
-        padding: "1.75rem",
-        transition: "all 0.35s cubic-bezier(0.4,0,0.2,1)",
+        background: bg,
+        position: "relative",
         opacity: 0,
-        display: "flex",
-        flexDirection: "column",
-        gap: "1rem",
-        cursor: "default",
       }}
     >
-      {/* Header */}
+      {/* Accent gradient edge — top of each row except first */}
+      {index > 0 && (
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            height: "1px",
+            background: `linear-gradient(90deg, transparent, ${project.accent}30, transparent)`,
+          }}
+        />
+      )}
+
       <div
         style={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "flex-start",
+          maxWidth: "1100px",
+          margin: "0 auto",
+          padding: "5rem 2rem",
+          display: "grid",
+          gridTemplateColumns: isEven ? "1fr 1fr" : "1fr 1fr",
+          gap: "4rem",
+          alignItems: "center",
+          // Alternate image left/right for visual rhythm
+          direction: isEven ? "ltr" : "rtl",
         }}
       >
-        <div>
+        {/* Image — links to detail page */}
+        <Link
+          href={`/proyectos/${project.id}`}
+          style={{
+            display: "block",
+            borderRadius: "12px",
+            overflow: "hidden",
+            border: `1px solid ${project.accent}20`,
+            position: "relative",
+            aspectRatio: "16/10",
+            transition: "all 0.35s cubic-bezier(0.4,0,0.2,1)",
+            direction: "ltr",
+          }}
+          onMouseEnter={(e) => {
+            const el = e.currentTarget as HTMLAnchorElement;
+            el.style.borderColor = `${project.accent}55`;
+            el.style.transform = "scale(1.02)";
+            el.style.boxShadow = `0 20px 50px rgba(0,0,0,0.5), 0 0 0 1px ${project.accent}30`;
+          }}
+          onMouseLeave={(e) => {
+            const el = e.currentTarget as HTMLAnchorElement;
+            el.style.borderColor = `${project.accent}20`;
+            el.style.transform = "scale(1)";
+            el.style.boxShadow = "none";
+          }}
+        >
+          <Image
+            src={project.image}
+            alt={`Captura de pantalla de ${project.title}`}
+            fill
+            sizes="(max-width: 768px) 100vw, 50vw"
+            style={{ objectFit: "cover" }}
+          />
+          {/* Hover overlay */}
+          <div
+            style={{
+              position: "absolute",
+              inset: 0,
+              background: `linear-gradient(135deg, ${project.accent}15, transparent)`,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              opacity: 0,
+              transition: "opacity 0.3s",
+            }}
+            className="image-overlay"
+          />
+          {/* "Ver detalle" label */}
+          <div
+            style={{
+              position: "absolute",
+              bottom: "12px",
+              right: "12px",
+              background: project.accent,
+              color: "#080808",
+              fontFamily: "var(--font-mono)",
+              fontSize: "0.65rem",
+              fontWeight: 600,
+              letterSpacing: "0.08em",
+              padding: "5px 10px",
+              borderRadius: "4px",
+            }}
+          >
+            Ver detalle →
+          </div>
+        </Link>
+
+        {/* Text content */}
+        <div style={{ direction: "ltr" }}>
+          {/* Year */}
           <div
             style={{
               fontFamily: "var(--font-mono)",
               fontSize: "0.65rem",
               color: "var(--text-muted)",
-              letterSpacing: "0.1em",
-              marginBottom: "4px",
+              letterSpacing: "0.12em",
+              textTransform: "uppercase",
+              marginBottom: "0.75rem",
             }}
           >
             {project.year}
           </div>
+
+          {/* Title */}
           <h3
             style={{
               fontFamily: "var(--font-display)",
-              fontSize: "1.2rem",
+              fontSize: "clamp(1.5rem, 3vw, 2.2rem)",
               fontWeight: 700,
+              letterSpacing: "-0.03em",
+              lineHeight: 1.1,
+              marginBottom: "0.4rem",
               color: "var(--text-primary)",
-              letterSpacing: "-0.02em",
             }}
           >
             {project.title}
           </h3>
+
+          {/* Subtitle */}
           <p
             style={{
-              fontSize: "0.78rem",
+              fontSize: "0.85rem",
               color: project.accent,
-              marginTop: "2px",
               fontWeight: 500,
+              marginBottom: "1.25rem",
             }}
           >
             {project.subtitle}
           </p>
-        </div>
-        <a
-          href={project.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          style={{
-            color: "var(--text-muted)",
-            textDecoration: "none",
-            fontSize: "1.1rem",
-            transition: "color 0.2s",
-            flexShrink: 0,
-            marginLeft: "1rem",
-          }}
-          aria-label={`Ver ${project.title} en GitHub`}
-          onMouseEnter={(e) =>
-            ((e.currentTarget as HTMLAnchorElement).style.color =
-              project.accent)
-          }
-          onMouseLeave={(e) =>
-            ((e.currentTarget as HTMLAnchorElement).style.color =
-              "var(--text-muted)")
-          }
-        >
-          ↗
-        </a>
-      </div>
 
-      {/* Description */}
-      <p
-        style={{
-          fontSize: "0.85rem",
-          color: "var(--text-secondary)",
-          lineHeight: 1.65,
-          flexGrow: 1,
-        }}
-      >
-        {project.description}
-      </p>
-
-      {/* Highlights */}
-      <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-        {project.highlights.map((h) => (
-          <span
-            key={h}
+          {/* Short description */}
+          <p
             style={{
+              fontSize: "0.92rem",
+              color: "var(--text-secondary)",
+              lineHeight: 1.7,
+              marginBottom: "1.75rem",
+              maxWidth: "420px",
+            }}
+          >
+            {project.shortDesc}
+          </p>
+
+          {/* Tags */}
+          <div style={{ display: "flex", flexWrap: "wrap", gap: "6px", marginBottom: "1.75rem" }}>
+            {project.tags.map((tag) => (
+              <span
+                key={tag}
+                style={{
+                  fontFamily: "var(--font-mono)",
+                  fontSize: "0.68rem",
+                  padding: "4px 10px",
+                  borderRadius: "4px",
+                  background: `${project.accent}10`,
+                  color: project.accent,
+                  border: `1px solid ${project.accent}25`,
+                  letterSpacing: "0.04em",
+                }}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+
+          {/* CTA */}
+          <Link
+            href={`/proyectos/${project.id}`}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "6px",
               fontFamily: "var(--font-mono)",
-              fontSize: "0.65rem",
-              padding: "3px 8px",
-              borderRadius: "4px",
-              background: `${project.accent}12`,
+              fontSize: "0.8rem",
+              fontWeight: 500,
               color: project.accent,
-              letterSpacing: "0.04em",
+              textDecoration: "none",
+              borderBottom: `1px solid ${project.accent}40`,
+              paddingBottom: "2px",
+              transition: "all 0.2s",
+              letterSpacing: "0.02em",
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.borderBottomColor = project.accent;
+              el.style.gap = "10px";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLAnchorElement;
+              el.style.borderBottomColor = `${project.accent}40`;
+              el.style.gap = "6px";
             }}
           >
-            {h}
-          </span>
-        ))}
-      </div>
-
-      {/* Tags */}
-      <div
-        style={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "6px",
-          paddingTop: "0.75rem",
-          borderTop: "1px solid var(--border)",
-        }}
-      >
-        {project.tags.map((tag) => (
-          <span
-            key={tag}
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.65rem",
-              padding: "3px 8px",
-              borderRadius: "4px",
-              background: "var(--bg-elevated)",
-              color: "var(--text-muted)",
-              letterSpacing: "0.04em",
-            }}
-          >
-            {tag}
-          </span>
-        ))}
+            Ver detalle completo <span>→</span>
+          </Link>
+        </div>
       </div>
     </div>
   );
