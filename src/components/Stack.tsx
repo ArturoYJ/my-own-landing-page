@@ -116,22 +116,32 @@ export default function Stack() {
       }}
     >
       <div style={{ maxWidth: "1200px", margin: "0 auto", width: "100%" }}>
-        <div className="section-label">
-          <span className="accent-line" />
-          Stack Técnico
+        <div className="section-label" style={{ color: "var(--text-secondary)" }}>
+          Habilidades y Herramientas
         </div>
 
         <h2
           style={{
+            display: "flex",
+            alignItems: "center",
             fontFamily: "var(--font-display)",
             fontSize: "clamp(2rem, 4vw, 3rem)",
             fontWeight: 700,
             letterSpacing: "-0.03em",
             marginBottom: "0.75rem",
             lineHeight: 1.1,
+            color: "var(--accent-primary)",
           }}
         >
-          Habilidades y Herramientas
+          <span 
+            className="accent-line" 
+            style={{ 
+              width: "60px", 
+              height: "4px", 
+              marginRight: "24px" 
+            }} 
+          />
+          Stack Tecnológico
         </h2>
         <p
           style={{
