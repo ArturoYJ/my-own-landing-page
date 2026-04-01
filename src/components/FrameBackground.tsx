@@ -81,7 +81,7 @@ export default function FrameBackground() {
       const vh = window.innerHeight;
       
       // ANIMATION: Complete 240 frames within 1 full viewport (High speed)
-      const animationRange = vh; 
+      const animationRange = vh * 0.5; 
       const scrollFraction = Math.max(0, Math.min(1, scrollTop / animationRange));
       
       const frameIndex = Math.min(

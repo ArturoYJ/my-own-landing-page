@@ -28,7 +28,7 @@ const projects = {
       "Despliegue automatizado con Docker y GitHub Actions.",
     ],
     tags: ["Next.js", "Express.js", "PostgreSQL", "Docker", "AWS EC2", "AWS RDS", "Zod", "TypeScript"],
-    github: "https://github.com/ArturoYJ",
+    github: "https://github.com/ArturoYJ/GlamStock",
   },
   huginmunin: {
     id: "huginmunin",
@@ -76,7 +76,7 @@ const projects = {
       "Arquitectura limpia y mantenible lista para escalar con nuevas funcionalidades.",
     ],
     tags: ["Kotlin", "Jetpack Compose", "Firebase", "MVVM", "LiveData", "ViewModel", "Android"],
-    github: "https://github.com/ArturoYJ",
+    github: "https://github.com/ArturoYJ/PillUp",
   },
 };
 

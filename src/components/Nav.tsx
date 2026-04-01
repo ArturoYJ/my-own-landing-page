@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const navLinks = [
   { href: "#proyectos", label: "Proyectos" },
@@ -12,6 +13,8 @@ const navLinks = [
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const pathname = usePathname();
+  const isSubpage = pathname !== "/";
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -52,7 +55,7 @@ export default function Nav() {
       >
         {/* Logo */}
         <Link
-          href="#hero"
+          href="/"
           style={{
             fontFamily: "var(--font-mono)",
             fontSize: "0.95rem",
@@ -85,33 +88,36 @@ export default function Nav() {
             alignItems: "center",
           }}
         >
-          {navLinks.map((link) => (
-            <li key={link.href}>
-              <a
-                href={link.href}
-                style={{
-                  color: "var(--text-secondary)",
-                  textDecoration: "none",
-                  fontSize: "0.875rem",
-                  fontWeight: 500,
-                  letterSpacing: "0.02em",
-                  transition: "color 0.2s",
-                  position: "relative",
-                  paddingBottom: "2px",
-                }}
-                onMouseEnter={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.color =
-                    "var(--text-primary)";
-                }}
-                onMouseLeave={(e) => {
-                  (e.currentTarget as HTMLAnchorElement).style.color =
-                    "var(--text-secondary)";
-                }}
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
+          {navLinks.map((link) => {
+            const resolvedHref = isSubpage ? `/${link.href}` : link.href;
+            return (
+              <li key={link.href}>
+                <a
+                  href={resolvedHref}
+                  style={{
+                    color: "var(--text-secondary)",
+                    textDecoration: "none",
+                    fontSize: "0.875rem",
+                    fontWeight: 500,
+                    letterSpacing: "0.02em",
+                    transition: "color 0.2s",
+                    position: "relative",
+                    paddingBottom: "2px",
+                  }}
+                  onMouseEnter={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.color =
+                      "var(--text-primary)";
+                  }}
+                  onMouseLeave={(e) => {
+                    (e.currentTarget as HTMLAnchorElement).style.color =
+                      "var(--text-secondary)";
+                  }}
+                >
+                  {link.label}
+                </a>
+              </li>
+            );
+          })}
           <li>
             <a
               href="mailto:yionjaime@gmail.com"
@@ -121,13 +127,13 @@ export default function Nav() {
                 padding: "0.5rem 1.25rem",
                 background: "transparent",
                 border: "1px solid var(--accent-primary)",
-                borderRadius: "0px", // Rectangular
+                borderRadius: "0px",
                 color: "var(--accent-primary)",
                 fontSize: "0.75rem",
                 fontWeight: 600,
                 textDecoration: "none",
                 fontFamily: "var(--font-mono)",
-                letterSpacing: "0.1em", // More spacing for premium feel
+                letterSpacing: "0.1em",
                 textTransform: "uppercase",
                 transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)",
               }}
@@ -142,7 +148,7 @@ export default function Nav() {
                 el.style.color = "var(--accent-primary)";
               }}
             >
-              Contacto
+              Email
             </a>
           </li>
         </ul>

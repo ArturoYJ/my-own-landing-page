@@ -43,14 +43,14 @@ export default function Contact() {
               animate(".contact-card", {
                 opacity: [0, 1],
                 translateY: [30, 0],
-                delay: stagger(120),
-                duration: 700,
+                delay: stagger(100),
+                duration: 450,
                 ease: "outExpo",
               });
               animate(".contact-heading", {
                 opacity: [0, 1],
                 translateY: [20, 0],
-                duration: 600,
+                duration: 400,
                 ease: "outExpo",
               });
             });
