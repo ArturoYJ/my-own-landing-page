@@ -80,7 +80,7 @@ export default function Projects() {
       style={{ 
         position: "relative", 
         zIndex: 2, 
-        background: "var(--bg-void)", // Pure black
+        background: "transparent", // Unified starry background
         borderTop: "1px solid var(--bg-card)", // Subtle divider instead of border ghost
         borderBottom: "1px solid var(--bg-card)",
       }}
@@ -203,6 +203,7 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
             alt={`Captura de pantalla de ${project.title}`}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
+            priority={index === 0}
             style={{ objectFit: "cover" }}
           />
           {/* Hover overlay */}

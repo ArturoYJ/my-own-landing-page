@@ -139,7 +139,7 @@ export default function FrameBackground() {
         height: "100%",
         zIndex: 0,
         pointerEvents: "none",
-        background: "var(--bg-void)",
+        background: "transparent",
         opacity: OPACITY,
         transition: "opacity 0.8s ease-out",
       }}

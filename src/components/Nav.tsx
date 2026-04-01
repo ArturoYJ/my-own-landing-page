@@ -23,9 +23,9 @@ export default function Nav() {
     <header
       style={{
         position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
+        top: "0",
+        left: "0",
+        right: "0",
         zIndex: 100,
         padding: "0 2rem",
         transition: "all 0.4s cubic-bezier(0.4,0,0.2,1)",
@@ -69,9 +69,11 @@ export default function Nav() {
             width: "8px", 
             height: "8px", 
             background: "var(--accent-primary)",
-            borderRadius: "0px", // Rectangular accent
+            borderRadius: 0,
           }} />
-          ayj<span style={{ color: "var(--accent-primary)" }}>.</span>
+          <span style={{ display: "flex", alignItems: "baseline" }}>
+            ayj<span style={{ color: "var(--accent-primary)" }}>.</span>
+          </span>
         </Link>
 
         {/* Links */}

@@ -74,7 +74,7 @@ export default function Hero() {
         zIndex: 2,
         scrollSnapAlign: "start",
         scrollSnapStop: "always",
-        background: "var(--bg-base)", // Correct surface as per Stitch
+        background: "transparent", // Unified starry background
       }}
     >
       <div
@@ -98,7 +98,7 @@ export default function Hero() {
               display: "inline-flex",
               alignItems: "center",
               gap: "8px",
-              background: "rgba(167,139,250,0.06)",
+              background: "transparent",
               borderRadius: "4px", // Precision: 4px
               padding: "4px 12px",
               marginBottom: "1.5rem",

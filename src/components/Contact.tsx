@@ -70,7 +70,7 @@ export default function Contact() {
       ref={sectionRef}
       style={{
         padding: "7rem 2rem 6rem",
-        background: "var(--bg-surface)",
+        background: "transparent", // Unified starry background
         position: "relative",
         zIndex: 2,
         scrollSnapAlign: "start",

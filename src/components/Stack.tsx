@@ -98,7 +98,7 @@ export default function Stack() {
       ref={sectionRef}
       style={{
         padding: "8rem 2rem",
-        background: "var(--bg-void)",
+        background: "transparent", // Unified starry background
         position: "relative",
         zIndex: 2,
         borderTop: "1px solid var(--bg-card)",
