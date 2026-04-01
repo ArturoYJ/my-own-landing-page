@@ -4,40 +4,63 @@ import { useEffect, useRef } from "react";
 
 const stackGroups = [
   {
-    category: "Backend",
-    color: "#a78bfa",
-    icon: "⬡",
-    skills: ["Node.js", "Express.js", "TypeScript", "Kotlin", "Ktor"],
-  },
-  {
     category: "Frontend",
-    color: "#a78bfa",
+    color: "#3b82f6",
     icon: "◈",
-    skills: ["React.js", "Next.js", "Angular", "JavaScript", "TypeScript"],
+    skills: [
+      { name: "React.js", icon: "⚛️" },
+      { name: "Next.js", icon: "▲" },
+      { name: "Tailwind CSS", icon: "〰️" },
+      { name: "TypeScript", icon: "TS" },
+      { name: "JavaScript", icon: "JS" },
+    ],
   },
   {
-    category: "Bases de Datos",
-    color: "#a78bfa",
+    category: "Backend",
+    color: "#10b981",
+    icon: "⬡",
+    skills: [
+      { name: "Node.js", icon: "⬢" },
+      { name: "Express", icon: "EX" },
+      { name: "Kotlin", icon: "K" },
+      { name: "Java", icon: "☕" },
+      { name: "Python", icon: "🐍" },
+    ],
+  },
+  {
+    category: "Databases",
+    color: "#f59e0b",
     icon: "◫",
-    skills: ["PostgreSQL", "MySQL", "Firebase"],
+    skills: [
+      { name: "PostgreSQL", icon: "🐘" },
+      { name: "MySQL", icon: "🐬" },
+      { name: "Firebase", icon: "🔥" },
+      { name: "Redis", icon: "🔴" },
+      { name: "MongoDB", icon: "🍃" },
+    ],
   },
   {
-    category: "Cloud & DevOps",
-    color: "#fbbf24",
+    category: "Infrastructure",
+    color: "#8b5cf6",
     icon: "◎",
-    skills: ["AWS EC2", "AWS RDS", "Docker", "GitHub Actions"],
+    skills: [
+      { name: "AWS EC2", icon: "☁️" },
+      { name: "AWS RDS", icon: "🗄️" },
+      { name: "Docker", icon: "🐳" },
+      { name: "Linux", icon: "🐧" },
+      { name: "GitHub Actions", icon: "⚡" },
+    ],
   },
   {
-    category: "Arquitectura",
-    color: "#34d399",
+    category: "Tools",
+    color: "#ec4899",
     icon: "◰",
     skills: [
-      "Clean Architecture",
-      "Hexagonal",
-      "SOLID",
-      "SOA",
-      "MVVM",
-      "Dependency Injection",
+      { name: "Git", icon: "📦" },
+      { name: "GitHub", icon: "🐙" },
+      { name: "VS Code", icon: "💻" },
+      { name: "Figma", icon: "🎨" },
+      { name: "Postman", icon: "🚀" },
     ],
   },
 ];
@@ -52,19 +75,19 @@ export default function Stack() {
           if (entry.isIntersecting) {
             import("animejs").then((mod) => {
               const { animate, stagger } = mod;
-              animate(".stack-group", {
+              animate(".stack-col", {
                 opacity: [0, 1],
                 translateY: [30, 0],
                 delay: stagger(100),
                 duration: 600,
                 ease: "outExpo",
               });
-              animate(".skill-badge", {
+              animate(".skill-row", {
                 opacity: [0, 1],
-                scale: [0.85, 1],
-                delay: stagger(30, { start: 300 }),
-                duration: 400,
-                ease: "outBack",
+                translateX: [-10, 0],
+                delay: stagger(40, { start: 400 }),
+                duration: 500,
+                ease: "outQuad",
               });
             });
             observer.unobserve(entry.target);
@@ -83,17 +106,16 @@ export default function Stack() {
       id="stack"
       ref={sectionRef}
       style={{
-        padding: "7rem 2rem",
+        padding: "8rem 2rem",
         background: "var(--bg-surface)",
         position: "relative",
         zIndex: 2,
-        scrollSnapAlign: "start",
         minHeight: "100vh",
         display: "flex",
         alignItems: "center",
       }}
     >
-      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+      <div style={{ maxWidth: "1200px", margin: "0 auto", width: "100%" }}>
         <div className="section-label">
           <span className="accent-line" />
           Stack Técnico
@@ -102,67 +124,59 @@ export default function Stack() {
         <h2
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
+            fontSize: "clamp(2rem, 4vw, 3rem)",
             fontWeight: 700,
             letterSpacing: "-0.03em",
             marginBottom: "0.75rem",
             lineHeight: 1.1,
           }}
         >
-          Herramientas que domino
+          Habilidades y Herramientas
         </h2>
         <p
           style={{
             color: "var(--text-secondary)",
             fontSize: "1rem",
-            marginBottom: "3.5rem",
-            maxWidth: "500px",
+            marginBottom: "4rem",
+            maxWidth: "600px",
           }}
         >
-          Tecnologías con las que construyo sistemas robustos, escalables y mantenibles.
+          Un vistazo estructurado a las tecnologías que utilizo en mi día a día para crear soluciones completas.
         </p>
 
         <div
           style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
-            gap: "1rem",
+            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+            gap: "2rem",
           }}
         >
           {stackGroups.map((group) => (
             <div
               key={group.category}
-              className="stack-group"
+              className="stack-col"
               style={{
-                background: "var(--bg-card)",
-                borderRadius: "var(--radius-card)",
-                padding: "1.75rem",
                 opacity: 0,
-                transition: "all 0.4s var(--transition-base)",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLDivElement;
-                el.style.background = "var(--bg-elevated)";
-                el.style.transform = "translateY(-4px)";
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLDivElement;
-                el.style.background = "var(--bg-card)";
-                el.style.transform = "translateY(0)";
+                display: "flex",
+                flexDirection: "column",
+                gap: "1.25rem",
               }}
             >
+              {/* Column Header */}
               <div
                 style={{
                   display: "flex",
                   alignItems: "center",
-                  gap: "8px",
-                  marginBottom: "1rem",
+                  gap: "10px",
+                  paddingBottom: "0.5rem",
+                  borderBottom: `2px solid var(--border)`,
+                  marginBottom: "0.5rem",
                 }}
               >
                 <span
                   style={{
                     fontFamily: "var(--font-mono)",
-                    fontSize: "1rem",
+                    fontSize: "1.2rem",
                     color: group.color,
                   }}
                 >
@@ -171,49 +185,78 @@ export default function Stack() {
                 <span
                   style={{
                     fontFamily: "var(--font-mono)",
-                    fontSize: "0.7rem",
-                    color: group.color,
-                    letterSpacing: "0.1em",
+                    fontSize: "0.85rem",
+                    color: "var(--text-primary)",
+                    letterSpacing: "0.05em",
                     textTransform: "uppercase",
-                    fontWeight: 500,
+                    fontWeight: 600,
                   }}
                 >
                   {group.category}
                 </span>
               </div>
 
-              <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
+              {/* Skills Rows */}
+              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
                 {group.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="skill-badge"
+                  <div
+                    key={skill.name}
+                    className="skill-row"
                     style={{
-                      fontFamily: "var(--font-mono)",
-                      fontSize: "0.72rem",
-                      padding: "4px 10px",
-                      borderRadius: "4px",
-                      background: `${group.color}10`,
-                      color: "var(--text-secondary)",
-                      border: `1px solid ${group.color}20`,
+                      display: "flex",
+                      alignItems: "center",
+                      gap: "0.75rem",
+                      padding: "0.6rem 0.8rem",
+                      background: "var(--bg-card)",
+                      border: "1px solid var(--border)",
+                      borderRadius: "0px", // Rectangular logic
                       opacity: 0,
-                      transition: "all 0.2s",
+                      transition: "all 0.3s ease",
                       cursor: "default",
                     }}
                     onMouseEnter={(e) => {
-                      const el = e.currentTarget as HTMLSpanElement;
-                      el.style.background = `${group.color}22`;
-                      el.style.color = group.color;
-                      el.style.borderColor = `${group.color}40`;
+                      const el = e.currentTarget as HTMLDivElement;
+                      el.style.background = `${group.color}15`;
+                      el.style.borderColor = `${group.color}50`;
+                      el.style.transform = "translateX(5px)";
                     }}
                     onMouseLeave={(e) => {
-                      const el = e.currentTarget as HTMLSpanElement;
-                      el.style.background = `${group.color}10`;
-                      el.style.color = "var(--text-secondary)";
-                      el.style.borderColor = `${group.color}20`;
+                      const el = e.currentTarget as HTMLDivElement;
+                      el.style.background = "var(--bg-card)";
+                      el.style.borderColor = "var(--border)";
+                      el.style.transform = "translateX(0)";
                     }}
                   >
-                    {skill}
-                  </span>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        width: "28px",
+                        height: "28px",
+                        background: `${group.color}20`,
+                        border: `1px solid ${group.color}40`,
+                        borderRadius: "0px", // Rectangular logic
+                        color: group.color,
+                        fontSize: "0.9rem",
+                        fontFamily: "var(--font-mono)",
+                        fontWeight: 600,
+                        flexShrink: 0,
+                      }}
+                    >
+                      {skill.icon}
+                    </div>
+                    <span
+                      style={{
+                        fontFamily: "var(--font-sans)",
+                        fontSize: "0.9rem",
+                        fontWeight: 500,
+                        color: "var(--text-primary)",
+                      }}
+                    >
+                      {skill.name}
+                    </span>
+                  </div>
                 ))}
               </div>
             </div>
