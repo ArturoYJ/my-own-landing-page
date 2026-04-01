@@ -23,7 +23,7 @@ const projects = [
     title: "Hugin Munin",
     subtitle: "ZOOMAT — Gestión de Especies en Cautiverio",
     shortDesc:
-      "Centralización de datos de especies para el Zoológico de Chiapas. API REST en Kotlin/Ktor bajo Arquitectura Hexagonal con desacoplamiento total de lógica de negocio.",
+      "Centralización de datos de +100 especies para el Zoológico de Chiapas. API REST en Kotlin/Ktor bajo Arquitectura Hexagonal con desacoplamiento total de lógica de negocio.",
     tags: ["Angular", "Kotlin", "Ktor", "PostgreSQL"],
     year: "2025 – Present",
     accent: "#a78bfa",

@@ -98,7 +98,7 @@ export default function Stack() {
       ref={sectionRef}
       style={{
         padding: "8rem 2rem",
-        background: "var(--bg-surface)",
+        background: "var(--bg-void)",
         position: "relative",
         zIndex: 2,
         minHeight: "40vh",
