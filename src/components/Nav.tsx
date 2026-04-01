@@ -8,7 +8,6 @@ const navLinks = [
   { href: "#proyectos", label: "Proyectos" },
   { href: "#stack", label: "Stack" },
   { href: "#sobre-mi", label: "Sobre mí" },
-  { href: "#contacto", label: "Contacto" },
 ];
 
 export default function Nav() {
@@ -63,7 +62,6 @@ export default function Nav() {
             color: "var(--text-primary)",
             textDecoration: "none",
             letterSpacing: "0.05em",
-            display: "flex",
             alignItems: "center",
             gap: "0.5rem",
           }}
@@ -75,7 +73,7 @@ export default function Nav() {
             borderRadius: 0,
           }} />
           <span style={{ display: "flex", alignItems: "baseline" }}>
-            ayj<span style={{ color: "var(--accent-primary)" }}>.</span>
+            Arturo Yion<span style={{ color: "var(--accent-primary)" }}></span>
           </span>
         </Link>
 
