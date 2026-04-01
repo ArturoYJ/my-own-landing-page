@@ -101,6 +101,8 @@ export default function Stack() {
         background: "var(--bg-void)",
         position: "relative",
         zIndex: 2,
+        borderTop: "1px solid var(--bg-card)",
+        borderBottom: "1px solid var(--bg-card)",
         minHeight: "40vh",
         display: "flex",
         alignItems: "center",

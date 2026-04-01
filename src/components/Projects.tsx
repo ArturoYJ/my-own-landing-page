@@ -80,9 +80,9 @@ export default function Projects() {
       style={{ 
         position: "relative", 
         zIndex: 2, 
-        background: "var(--bg-card)", // Unified background
-        borderTop: "1px solid var(--border)",
-        borderBottom: "1px solid var(--border)",
+        background: "var(--bg-void)", // Pure black
+        borderTop: "1px solid var(--bg-card)", // Subtle divider instead of border ghost
+        borderBottom: "1px solid var(--bg-card)",
       }}
     >
       {/* Section header */}
