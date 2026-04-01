@@ -81,12 +81,9 @@ export default function Projects() {
     >
       {/* Section header */}
       <div style={{ 
-        padding: "2rem", 
+        padding: "8rem 2rem", 
         maxWidth: "1100px", 
         margin: "0 auto",
-        scrollSnapAlign: "start",
-        scrollSnapStop: "always",
-        minHeight: "100vh", // Force full viewport for automatic snap transition
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
@@ -142,9 +139,7 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
         background: bg,
         position: "relative",
         opacity: 0,
-        scrollSnapAlign: "start",
-        scrollSnapStop: "always",
-        minHeight: "100vh",
+        minHeight: "80vh",
         display: "flex",
         alignItems: "center"
       }}

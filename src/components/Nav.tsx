@@ -30,22 +30,24 @@ export default function Nav() {
         padding: "0 2rem",
         transition: "all 0.4s cubic-bezier(0.4,0,0.2,1)",
         background: scrolled
-          ? "rgba(8,8,8,0.85)"
+          ? "rgba(10,10,10,0.95)"
           : "transparent",
-        backdropFilter: scrolled ? "blur(20px) saturate(180%)" : "none",
+        backdropFilter: scrolled ? "blur(16px)" : "none",
         borderBottom: scrolled
-          ? "1px solid var(--border)"
+          ? "1px solid rgba(255,255,255,0.1)"
           : "1px solid transparent",
+        boxShadow: scrolled ? "0 4px 30px rgba(0,0,0,0.3)" : "none",
       }}
     >
       <nav
         style={{
           maxWidth: "1100px",
           margin: "0 auto",
-          height: "64px",
+          height: scrolled ? "60px" : "80px",
           display: "flex",
           alignItems: "center",
           justifyContent: "space-between",
+          transition: "height 0.4s ease",
         }}
       >
         {/* Logo */}
@@ -53,14 +55,23 @@ export default function Nav() {
           href="#hero"
           style={{
             fontFamily: "var(--font-mono)",
-            fontSize: "0.9rem",
-            fontWeight: 500,
-            color: "var(--accent-primary)",
+            fontSize: "0.95rem",
+            fontWeight: 700,
+            color: "var(--text-primary)",
             textDecoration: "none",
             letterSpacing: "0.05em",
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
           }}
         >
-          ayj<span style={{ color: "var(--text-muted)" }}>@dev</span>
+          <span style={{ 
+            width: "8px", 
+            height: "8px", 
+            background: "var(--accent-primary)",
+            borderRadius: "0px", // Rectangular accent
+          }} />
+          ayj<span style={{ color: "var(--accent-primary)" }}>.</span>
         </Link>
 
         {/* Links */}
@@ -105,17 +116,18 @@ export default function Nav() {
               style={{
                 display: "inline-flex",
                 alignItems: "center",
-                padding: "0.4rem 1rem",
+                padding: "0.5rem 1.25rem",
                 background: "transparent",
                 border: "1px solid var(--accent-primary)",
-                borderRadius: "6px",
+                borderRadius: "0px", // Rectangular
                 color: "var(--accent-primary)",
-                fontSize: "0.8rem",
-                fontWeight: 500,
+                fontSize: "0.75rem",
+                fontWeight: 600,
                 textDecoration: "none",
                 fontFamily: "var(--font-mono)",
-                letterSpacing: "0.05em",
-                transition: "all 0.2s cubic-bezier(0.4,0,0.2,1)",
+                letterSpacing: "0.1em", // More spacing for premium feel
+                textTransform: "uppercase",
+                transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)",
               }}
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLAnchorElement;

@@ -43,14 +43,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   height: 100%;
-  overflow-y: scroll;
-}
-
-/* Enable native snap for mobile/touch devices where Anime.js intercept feels weird */
-@media (max-width: 1024px) {
-  html {
-    scroll-snap-type: y mandatory;
-  }
+  overflow-y: auto;
 }
 
 body {
@@ -58,8 +51,7 @@ body {
   color: var(--text-primary);
   font-family: var(--font-body);
   overflow-x: hidden;
-  height: 100%;
-  overflow-y: scroll; /* Required for snapping on some browsers */
+  min-height: 100vh;
 }
 
 /* ─── Dot Grid Background ─── */
