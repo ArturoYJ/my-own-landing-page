@@ -5,14 +5,10 @@ import Stack from "@/components/Stack";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import FrameBackground from "@/components/FrameBackground";
-import ControlledSnap from "@/components/ControlledSnap";
 
 export default function Home() {
   return (
     <>
-      {/* Scroll Logic Controller */}
-      <ControlledSnap />
-
       {/* Frame video background — bottommost layer */}
       <FrameBackground />
 

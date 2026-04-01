@@ -3,8 +3,6 @@
 import { useEffect, useRef } from "react";
 
 const TOTAL_FRAMES = 240;
-const TARGET_FPS = 24;
-const FRAME_INTERVAL = 1000 / TARGET_FPS;
 const OPACITY = 0.40;
 
 /**
@@ -36,7 +34,6 @@ export default function FrameBackground() {
 
     // ── Preload all frames ──
     const images: HTMLImageElement[] = [];
-    let loadedCount = 0;
     let firstFrameReady = false;
 
     // Draw helper with closure access to canvas/ctx
@@ -68,7 +65,6 @@ export default function FrameBackground() {
       const img = new window.Image();
       img.src = frameSrc(i);
       img.onload = () => {
-        loadedCount++;
         if (i === 1 && !firstFrameReady) {
           firstFrameReady = true;
           drawFrame(img);
