@@ -4,10 +4,9 @@ import { useEffect, useRef } from "react";
 import Image from "next/image";
 
 const roles = [
+  "Full Stack Dev",
   "Software Engineer",
   "Backend Developer",
-  "Full Stack Dev",
-  "Clean Architecture",
 ];
 
 export default function Hero() {
@@ -108,7 +107,7 @@ export default function Hero() {
           >
             <span style={{ width: "4px", height: "4px", borderRadius: "50%", background: "var(--accent-primary)", display: "inline-block", animation: "pulse 2s ease-in-out infinite" }} />
             <span style={{ fontFamily: "var(--font-mono)", fontSize: "0.65rem", color: "var(--accent-primary)", letterSpacing: "0.1em", textTransform: "uppercase" }}>
-              Disponible para proyectos
+              Disponible para colaborar
             </span>
           </div>
 

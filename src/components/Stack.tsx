@@ -10,7 +10,6 @@ const stackGroups = [
     skills: [
       { name: "React.js", icon: "⚛️" },
       { name: "Next.js", icon: "▲" },
-      { name: "Tailwind CSS", icon: "〰️" },
       { name: "TypeScript", icon: "TS" },
       { name: "JavaScript", icon: "JS" },
     ],
@@ -23,8 +22,6 @@ const stackGroups = [
       { name: "Node.js", icon: "⬢" },
       { name: "Express", icon: "EX" },
       { name: "Kotlin", icon: "K" },
-      { name: "Java", icon: "☕" },
-      { name: "Python", icon: "🐍" },
     ],
   },
   {
@@ -35,8 +32,6 @@ const stackGroups = [
       { name: "PostgreSQL", icon: "🐘" },
       { name: "MySQL", icon: "🐬" },
       { name: "Firebase", icon: "🔥" },
-      { name: "Redis", icon: "🔴" },
-      { name: "MongoDB", icon: "🍃" },
     ],
   },
   {
@@ -44,10 +39,8 @@ const stackGroups = [
     color: "#8b5cf6",
     icon: "◎",
     skills: [
-      { name: "AWS EC2", icon: "☁️" },
-      { name: "AWS RDS", icon: "🗄️" },
+      { name: "AWS", icon: "☁️" },
       { name: "Docker", icon: "🐳" },
-      { name: "Linux", icon: "🐧" },
       { name: "GitHub Actions", icon: "⚡" },
     ],
   },
@@ -57,8 +50,6 @@ const stackGroups = [
     icon: "◰",
     skills: [
       { name: "Git", icon: "📦" },
-      { name: "GitHub", icon: "🐙" },
-      { name: "VS Code", icon: "💻" },
       { name: "Figma", icon: "🎨" },
       { name: "Postman", icon: "🚀" },
     ],
@@ -110,15 +101,12 @@ export default function Stack() {
         background: "var(--bg-surface)",
         position: "relative",
         zIndex: 2,
-        minHeight: "100vh",
+        minHeight: "40vh",
         display: "flex",
         alignItems: "center",
       }}
     >
       <div style={{ maxWidth: "1200px", margin: "0 auto", width: "100%" }}>
-        <div className="section-label" style={{ color: "var(--text-secondary)" }}>
-          Habilidades y Herramientas
-        </div>
 
         <h2
           style={{
@@ -133,15 +121,8 @@ export default function Stack() {
             color: "var(--accent-primary)",
           }}
         >
-          <span 
-            className="accent-line" 
-            style={{ 
-              width: "60px", 
-              height: "4px", 
-              marginRight: "24px" 
-            }} 
-          />
-          Stack Tecnológico
+          <span className="accent-line" style={{ width: "40px" }} />
+          Stack Técnico
         </h2>
         <p
           style={{
