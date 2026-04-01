@@ -77,44 +77,50 @@ export default function Projects() {
     <section
       id="proyectos"
       ref={sectionRef}
-      style={{ position: "relative", zIndex: 2 }}
+      style={{ 
+        position: "relative", 
+        zIndex: 2, 
+        background: "var(--bg-card)", // Unified background
+        borderTop: "1px solid var(--border)",
+        borderBottom: "1px solid var(--border)",
+      }}
     >
       {/* Section header */}
       <div style={{ 
-        padding: "8rem 2rem", 
+        padding: "5rem 2rem 2rem", 
         maxWidth: "1100px", 
         margin: "0 auto",
         display: "flex",
         flexDirection: "column",
         justifyContent: "center",
       }}>
-        <div className="section-label">
+        <div className="section-label" style={{ marginBottom: "1rem" }}>
           <span className="accent-line" />
           Proyectos Destacados
         </div>
         <h2
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(1.8rem, 5vw, 3.5rem)", // Bigger for full-page feel
+            fontSize: "clamp(1.8rem, 5vw, 2.8rem)", 
             fontWeight: 700,
             letterSpacing: "-0.03em",
             lineHeight: 1,
-            marginBottom: "1rem",
+            marginBottom: "0.75rem",
           }}
         >
-          Lo que he <br /> construido
+          Lo que he construido
         </h2>
         <p style={{ 
           color: "var(--text-secondary)", 
-          fontSize: "1.1rem", 
+          fontSize: "1rem", 
           maxWidth: "540px",
-          lineHeight: 1.6 
+          lineHeight: 1.5 
         }}>
-          Proyectos reales con arquitecturas limpias, despliegue cloud y foco en la mantenibilidad.
+          Arquitecturas limpias, despliegue cloud y foco en la mantenibilidad.
         </p>
       </div>
 
-      {/* Project rows — each one is a full-width horizontal band */}
+      {/* Project rows */}
       {projects.map((project, idx) => (
         <ProjectRow key={project.id} project={project} index={idx} />
       ))}
@@ -128,18 +134,15 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
   const rowRef = useRef<HTMLDivElement>(null);
   const isEven = index % 2 === 0;
 
-  // No-Line Rule: Contrast via tonal shifts rather than solid dividers
-  const bg = project.bgDark ? "var(--bg-void)" : "var(--bg-base)";
-
   return (
     <div
       ref={rowRef}
       className="project-row"
       style={{
-        background: bg,
+        background: "transparent", // Unified background with parent
         position: "relative",
         opacity: 0,
-        minHeight: "80vh",
+        minHeight: "auto", // Reduced from 80vh
         display: "flex",
         alignItems: "center"
       }}
@@ -160,7 +163,7 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
         style={{
           maxWidth: "1100px",
           margin: "0 auto",
-          padding: "5rem 2rem",
+          padding: "3rem 2rem",
           display: "grid",
           gridTemplateColumns: isEven ? "1fr 1fr" : "1fr 1fr",
           gap: "4rem",
