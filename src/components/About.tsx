@@ -1,34 +1,15 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useObserverAnimation } from "@/hooks/useObserverAnimation";
 
 export default function About() {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            import("animejs").then((mod) => {
-              const { animate, stagger } = mod;
-              animate(".about-col", {
-                opacity: [0, 1],
-                translateX: [-30, 0],
-                delay: stagger(200),
-                duration: 800,
-                ease: "outExpo",
-              });
-            });
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.15 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
+  const sectionRef = useObserverAnimation({
+    selector: ".about-col",
+    animations: { opacity: [0, 1], translateX: [-30, 0] },
+    duration: 800,
+    staggerDelay: 200,
+    threshold: 0.15,
+  });
 
   return (
     <section

@@ -1,8 +1,9 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useObserverAnimation } from "@/hooks/useObserverAnimation";
 
 const projects = [
   {
@@ -15,7 +16,6 @@ const projects = [
     year: "Mar 2026",
     accent: "#a78bfa",
     image: "/project-placeholder.png",
-    // Bg: alternating contrast via bg color
     bgDark: false,
   },
   {
@@ -26,7 +26,7 @@ const projects = [
       "Centralización de datos de +100 especies para el Zoológico de Chiapas. API REST en Kotlin/Ktor bajo Arquitectura Hexagonal con desacoplamiento total de lógica de negocio.",
     tags: ["Angular", "Kotlin", "Ktor", "PostgreSQL"],
     year: "2025 – Present",
-    accent: "#a78bfa",
+    accent: "#60a5fa",
     image: "/project-placeholder.png",
     bgDark: true,
   },
@@ -38,62 +38,43 @@ const projects = [
       "App nativa Android para gestión de medicamentos. Arquitectura MVVM estricta con ViewModel y LiveData, garantizando persistencia de estado ante cambios de configuración.",
     tags: ["Kotlin", "Jetpack Compose", "Firebase", "MVVM"],
     year: "Nov 2025",
-    accent: "#a78bfa",
+    accent: "#34d399",
     image: "/project-placeholder.png",
     bgDark: false,
   },
 ];
 
 export default function Projects() {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            import("animejs").then((mod) => {
-              const { animate, stagger } = mod;
-              animate(".project-row", {
-                opacity: [0, 1],
-                translateY: [30, 0],
-                delay: stagger(180),
-                duration: 800,
-                ease: "outExpo",
-              });
-            });
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
+  const sectionRef = useObserverAnimation({
+    selector: ".project-row",
+    duration: 800,
+    staggerDelay: 180,
+    threshold: 0.1,
+  });
 
   return (
     <section
-      id="proyectos"
       ref={sectionRef}
-      style={{ 
-        position: "relative", 
-        zIndex: 2, 
-        background: "transparent", // Unified starry background
-        borderTop: "1px solid var(--bg-card)", // Subtle divider instead of border ghost
+      id="proyectos"
+      style={{
+        position: "relative",
+        zIndex: 2,
+        background: "transparent",
+        borderTop: "1px solid var(--bg-card)",
         borderBottom: "1px solid var(--bg-card)",
       }}
     >
       {/* Section header */}
-      <div style={{ 
-        padding: "5rem 2rem 2rem", 
-        maxWidth: "1100px", 
-        margin: "0 auto",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-      }}>
+      <div
+        style={{
+          padding: "5rem 2rem 2rem",
+          maxWidth: "1100px",
+          margin: "0 auto",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
         <div className="section-label" style={{ marginBottom: "1rem" }}>
           <span className="accent-line" />
           Proyectos Destacados
@@ -101,7 +82,7 @@ export default function Projects() {
         <h2
           style={{
             fontFamily: "var(--font-display)",
-            fontSize: "clamp(1.8rem, 5vw, 2.8rem)", 
+            fontSize: "clamp(1.8rem, 5vw, 2.8rem)",
             fontWeight: 700,
             letterSpacing: "-0.03em",
             lineHeight: 1,
@@ -110,12 +91,14 @@ export default function Projects() {
         >
           Lo que he construido
         </h2>
-        <p style={{ 
-          color: "var(--text-secondary)", 
-          fontSize: "1rem", 
-          maxWidth: "540px",
-          lineHeight: 1.5 
-        }}>
+        <p
+          style={{
+            color: "var(--text-secondary)",
+            fontSize: "1rem",
+            maxWidth: "540px",
+            lineHeight: 1.5,
+          }}
+        >
           Arquitecturas limpias, despliegue cloud y foco en la mantenibilidad.
         </p>
       </div>
@@ -131,24 +114,22 @@ export default function Projects() {
 type Project = (typeof projects)[0];
 
 function ProjectRow({ project, index }: { project: Project; index: number }) {
-  const rowRef = useRef<HTMLDivElement>(null);
   const isEven = index % 2 === 0;
 
   return (
     <div
-      ref={rowRef}
       className="project-row"
       style={{
-        background: "transparent", // Unified background with parent
+        background: "transparent",
         position: "relative",
         opacity: 0,
-        minHeight: "auto", // Reduced from 80vh
+        minHeight: "auto",
         display: "flex",
-        alignItems: "center"
+        alignItems: "center",
       }}
     >
-      {/* Structural contrast edge - using color shift instead of 1px border */}
-      <div 
+      {/* Structural contrast edge */}
+      <div
         style={{
           position: "absolute",
           top: 0,
@@ -168,13 +149,14 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
           gridTemplateColumns: isEven ? "1fr 1fr" : "1fr 1fr",
           gap: "4rem",
           alignItems: "center",
-          // Alternate image left/right for visual rhythm
           direction: isEven ? "ltr" : "rtl",
+          width: "100%",
         }}
       >
         {/* Image — links to detail page */}
         <Link
           href={`/proyectos/${project.id}`}
+          aria-label={`Ver detalles del proyecto ${project.title}`}
           style={{
             display: "block",
             borderRadius: "12px",
@@ -200,25 +182,11 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
         >
           <Image
             src={project.image}
-            alt={`Captura de pantalla de ${project.title}`}
+            alt={`Captura de pantalla: ${project.title}`}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             priority={index === 0}
             style={{ objectFit: "cover" }}
-          />
-          {/* Hover overlay */}
-          <div
-            style={{
-              position: "absolute",
-              inset: 0,
-              background: `linear-gradient(135deg, ${project.accent}15, transparent)`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              opacity: 0,
-              transition: "opacity 0.3s",
-            }}
-            className="image-overlay"
           />
           {/* "Ver detalle" label */}
           <div
@@ -338,14 +306,23 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
               const el = e.currentTarget as HTMLAnchorElement;
               el.style.borderBottomColor = project.accent;
               el.style.gap = "10px";
+              const arrow = el.querySelector("span");
+              if (arrow) {
+                arrow.style.transform = "translateX(2px) rotate(20deg)";
+                arrow.style.display = "inline-block";
+              }
             }}
             onMouseLeave={(e) => {
               const el = e.currentTarget as HTMLAnchorElement;
               el.style.borderBottomColor = `${project.accent}40`;
               el.style.gap = "6px";
+              const arrow = el.querySelector("span");
+              if (arrow) {
+                arrow.style.transform = "translateX(0) rotate(0deg)";
+              }
             }}
           >
-            Ver detalle completo <span>→</span>
+            Ver detalle completo <span style={{ transition: "all 0.2s" }}>→</span>
           </Link>
         </div>
       </div>

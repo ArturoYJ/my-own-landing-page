@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useObserverAnimation } from "@/hooks/useObserverAnimation";
 
 const stackGroups = [
   {
@@ -57,40 +57,12 @@ const stackGroups = [
 ];
 
 export default function Stack() {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            import("animejs").then((mod) => {
-              const { animate, stagger } = mod;
-              animate(".stack-col", {
-                opacity: [0, 1],
-                translateY: [30, 0],
-                delay: stagger(100),
-                duration: 600,
-                ease: "outExpo",
-              });
-              animate(".skill-row", {
-                opacity: [0, 1],
-                translateX: [-10, 0],
-                delay: stagger(40, { start: 400 }),
-                duration: 500,
-                ease: "outQuad",
-              });
-            });
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
+  const sectionRef = useObserverAnimation({
+    selector: ".stack-col",
+    duration: 600,
+    staggerDelay: 100,
+    threshold: 0.2,
+  });
 
   return (
     <section

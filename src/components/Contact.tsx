@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useObserverAnimation } from "@/hooks/useObserverAnimation";
 
 const contactLinks = [
   {
@@ -10,6 +10,7 @@ const contactLinks = [
     icon: "✉",
     accent: "#a78bfa",
     description: "Escríbeme directamente",
+    ariaLabel: "Enviar email a Arturo Yion",
   },
   {
     label: "LinkedIn",
@@ -19,6 +20,7 @@ const contactLinks = [
     accent: "#a78bfa",
     description: "Perfil profesional",
     mono: true,
+    ariaLabel: "Visitar perfil de LinkedIn",
   },
   {
     label: "GitHub",
@@ -27,42 +29,17 @@ const contactLinks = [
     icon: "⌥",
     accent: "#a78bfa",
     description: "Código y proyectos",
+    ariaLabel: "Visitar perfil de GitHub",
   },
 ];
 
 export default function Contact() {
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            import("animejs").then((mod) => {
-              const { animate, stagger } = mod;
-              animate(".contact-card", {
-                opacity: [0, 1],
-                translateY: [30, 0],
-                delay: stagger(100),
-                duration: 450,
-                ease: "outExpo",
-              });
-              animate(".contact-heading", {
-                opacity: [0, 1],
-                translateY: [20, 0],
-                duration: 400,
-                ease: "outExpo",
-              });
-            });
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
+  const sectionRef = useObserverAnimation({
+    selector: ".contact-card",
+    duration: 450,
+    staggerDelay: 100,
+    threshold: 0.2,
+  });
 
   return (
     <section
@@ -123,6 +100,7 @@ export default function Contact() {
               href={link.href}
               target={link.href.startsWith("mailto") ? undefined : "_blank"}
               rel="noopener noreferrer"
+              aria-label={link.ariaLabel}
               className="contact-card"
               style={{
                 display: "flex",

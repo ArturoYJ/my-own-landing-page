@@ -12,6 +12,7 @@ const navLinks = [
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const isSubpage = pathname !== "/";
 
@@ -20,6 +21,11 @@ export default function Nav() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Close mobile menu on navigation
+  const handleNavClick = () => {
+    setMobileMenuOpen(false);
+  };
 
   return (
     <header
@@ -55,6 +61,7 @@ export default function Nav() {
         {/* Logo */}
         <Link
           href="/"
+          onClick={handleNavClick}
           style={{
             fontFamily: "var(--font-mono)",
             fontSize: "0.95rem",
@@ -62,22 +69,26 @@ export default function Nav() {
             color: "var(--text-primary)",
             textDecoration: "none",
             letterSpacing: "0.05em",
+            display: "flex",
             alignItems: "center",
             gap: "0.5rem",
           }}
+          aria-label="Arturo Yion - Inicio"
         >
-          <span style={{ 
-            width: "8px", 
-            height: "8px", 
-            background: "var(--accent-primary)",
-            borderRadius: 0,
-          }} />
+          <span
+            style={{
+              width: "8px",
+              height: "8px",
+              background: "var(--accent-primary)",
+              borderRadius: 0,
+            }}
+          />
           <span style={{ display: "flex", alignItems: "baseline" }}>
             Arturo Yion<span style={{ color: "var(--accent-primary)" }}></span>
           </span>
         </Link>
 
-        {/* Links */}
+        {/* Desktop Links */}
         <ul
           style={{
             listStyle: "none",
@@ -85,13 +96,15 @@ export default function Nav() {
             gap: "2rem",
             alignItems: "center",
           }}
+          className="desktop-nav"
         >
           {navLinks.map((link) => {
-            const resolvedHref = isSubpage ? `/${link.href}` : link.href;
+            const resolvedHref = isSubpage ? `/#${link.href.substring(1)}` : link.href;
             return (
               <li key={link.href}>
                 <a
                   href={resolvedHref}
+                  onClick={handleNavClick}
                   style={{
                     color: "var(--text-secondary)",
                     textDecoration: "none",
@@ -134,7 +147,9 @@ export default function Nav() {
                 letterSpacing: "0.1em",
                 textTransform: "uppercase",
                 transition: "all 0.3s cubic-bezier(0.4,0,0.2,1)",
+                cursor: "pointer",
               }}
+              aria-label="Enviar email"
               onMouseEnter={(e) => {
                 const el = e.currentTarget as HTMLAnchorElement;
                 el.style.background = "var(--accent-primary)";
@@ -150,7 +165,137 @@ export default function Nav() {
             </a>
           </li>
         </ul>
+
+        {/* Mobile Hamburger Menu Button */}
+        <button
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          aria-label={mobileMenuOpen ? "Cerrar menú" : "Abrir menú"}
+          aria-expanded={mobileMenuOpen}
+          style={{
+            display: "none",
+            flexDirection: "column",
+            gap: "5px",
+            background: "transparent",
+            border: "none",
+            cursor: "pointer",
+            padding: "8px",
+          }}
+          className="mobile-menu-button"
+        >
+          <span
+            style={{
+              width: "24px",
+              height: "2px",
+              background: "var(--text-primary)",
+              transition: "all 0.3s",
+              transform: mobileMenuOpen ? "rotate(45deg) translate(10px, 10px)" : "none",
+            }}
+          />
+          <span
+            style={{
+              width: "24px",
+              height: "2px",
+              background: "var(--text-primary)",
+              transition: "all 0.3s",
+              opacity: mobileMenuOpen ? 0 : 1,
+            }}
+          />
+          <span
+            style={{
+              width: "24px",
+              height: "2px",
+              background: "var(--text-primary)",
+              transition: "all 0.3s",
+              transform: mobileMenuOpen ? "rotate(-45deg) translate(8px, -8px)" : "none",
+            }}
+          />
+        </button>
       </nav>
+
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <nav
+          style={{
+            background: "rgba(10,10,10,0.95)",
+            borderTop: "1px solid rgba(255,255,255,0.1)",
+            padding: "1rem 2rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: "1rem",
+          }}
+          className="mobile-nav-menu"
+        >
+          {navLinks.map((link) => {
+            const resolvedHref = isSubpage ? `/#${link.href.substring(1)}` : link.href;
+            return (
+              <a
+                key={link.href}
+                href={resolvedHref}
+                onClick={handleNavClick}
+                style={{
+                  color: "var(--text-secondary)",
+                  textDecoration: "none",
+                  fontSize: "0.95rem",
+                  padding: "0.75rem 0",
+                  borderBottom: "1px solid rgba(206,189,255,0.1)",
+                  transition: "color 0.2s",
+                }}
+                onMouseEnter={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.color =
+                    "var(--text-primary)";
+                }}
+                onMouseLeave={(e) => {
+                  (e.currentTarget as HTMLAnchorElement).style.color =
+                    "var(--text-secondary)";
+                }}
+              >
+                {link.label}
+              </a>
+            );
+          })}
+          <a
+            href="mailto:yionjaime@gmail.com"
+            onClick={handleNavClick}
+            style={{
+              display: "inline-flex",
+              alignItems: "center",
+              padding: "0.75rem 1.25rem",
+              background: "var(--accent-primary)",
+              color: "#080808",
+              fontSize: "0.75rem",
+              fontWeight: 600,
+              textDecoration: "none",
+              fontFamily: "var(--font-mono)",
+              letterSpacing: "0.1em",
+              textTransform: "uppercase",
+              borderRadius: "4px",
+              marginTop: "0.5rem",
+              transition: "all 0.3s",
+              cursor: "pointer",
+            }}
+            aria-label="Enviar email"
+          >
+            Email
+          </a>
+        </nav>
+      )}
+
+      <style>{`
+        @media (max-width: 768px) {
+          .desktop-nav {
+            display: none !important;
+          }
+          .mobile-menu-button {
+            display: flex !important;
+          }
+        }
+
+        @media (min-width: 769px) {
+          .mobile-menu-button {
+            display: none !important;
+          }
+        }
+      `}</style>
     </header>
   );
 }

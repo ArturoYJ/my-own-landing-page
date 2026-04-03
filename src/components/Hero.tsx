@@ -154,19 +154,28 @@ export default function Hero() {
           <div className="hero-ctas" style={{ display: "flex", gap: "1.25rem", flexWrap: "wrap", opacity: 0 }}>
             <a
               href="#proyectos"
-              style={{ 
-                padding: "0.85rem 2rem", 
-                background: "linear-gradient(135deg, var(--primary), var(--primary-container))", 
-                color: "#131313", 
-                borderRadius: "4px", 
-                fontWeight: 600, 
-                fontSize: "0.85rem", 
-                textDecoration: "none", 
+              aria-label="Ir a la sección de proyectos destacados"
+              style={{
+                padding: "1rem 2.5rem",
+                background: "linear-gradient(135deg, var(--primary), var(--primary-container))",
+                color: "#131313",
+                borderRadius: "4px",
+                fontWeight: 600,
+                fontSize: "0.95rem",
+                textDecoration: "none",
                 transition: "all 0.3s var(--transition-base)",
-                boxShadow: "0 0 40px rgba(167,139,250,0.1)"
+                boxShadow: "0 0 40px rgba(167,139,250,0.1)",
               }}
-              onMouseEnter={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.transform = "translateY(-3px) scale(1.02)"; el.style.boxShadow = "0 10px 50px rgba(167,139,250,0.25)"; }}
-              onMouseLeave={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.transform = "translateY(0) scale(1)"; el.style.boxShadow = "0 0 40px rgba(167,139,250,0.1)"; }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.transform = "translateY(-3px) scale(1.02)";
+                el.style.boxShadow = "0 10px 50px rgba(167,139,250,0.25)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.transform = "translateY(0) scale(1)";
+                el.style.boxShadow = "0 0 40px rgba(167,139,250,0.1)";
+              }}
             >
               Ver proyectos
             </a>
@@ -174,18 +183,27 @@ export default function Hero() {
               href="https://github.com/ArturoYJ"
               target="_blank"
               rel="noopener noreferrer"
-              style={{ 
-                padding: "0.85rem 2rem", 
-                borderRadius: "4px", 
-                fontWeight: 500, 
-                fontSize: "0.85rem", 
-                textDecoration: "none", 
-                border: "1px solid rgba(148, 142, 157, 0.15)", // Ghost border
+              aria-label="Visitar perfil de GitHub en una nueva ventana"
+              style={{
+                padding: "1rem 2.5rem",
+                borderRadius: "4px",
+                fontWeight: 500,
+                fontSize: "0.95rem",
+                textDecoration: "none",
+                border: "1px solid rgba(148, 142, 157, 0.15)",
                 color: "var(--text-primary)",
-                transition: "all 0.3s var(--transition-base)" 
+                transition: "all 0.3s var(--transition-base)",
               }}
-              onMouseEnter={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "var(--bg-card)"; el.style.transform = "translateY(-3px)"; }}
-              onMouseLeave={(e) => { const el = e.currentTarget as HTMLAnchorElement; el.style.background = "transparent"; el.style.transform = "translateY(0)"; }}
+              onMouseEnter={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.background = "var(--bg-card)";
+                el.style.transform = "translateY(-3px)";
+              }}
+              onMouseLeave={(e) => {
+                const el = e.currentTarget as HTMLAnchorElement;
+                el.style.background = "transparent";
+                el.style.transform = "translateY(0)";
+              }}
             >
               GitHub <span>→</span>
             </a>
