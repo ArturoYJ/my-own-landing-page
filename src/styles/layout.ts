@@ -1,4 +1,16 @@
 /**
+ * DEPRECATED: Legacy design tokens
+ * 
+ * This file is kept for backward compatibility but is no longer the primary source.
+ * All design tokens have been moved to CSS custom properties in src/app/globals.css
+ * 
+ * ✅ NEW APPROACH: Use CSS custom properties (--variable-name) in CSS modules
+ * ❌ OLD APPROACH: Import from this TypeScript file
+ * 
+ * See src/app/globals.css for the canonical source of design tokens.
+ */
+
+/**
  * Unified layout and component styles
  * Centralizes spacing, colors, and common patterns
  */

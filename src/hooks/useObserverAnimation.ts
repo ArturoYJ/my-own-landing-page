@@ -73,6 +73,15 @@ export function useObserverAnimation({
               };
 
               animate(selector, animationConfig);
+            }).catch(() => {
+              const elements = ref.current?.querySelectorAll(selector);
+              if (elements) {
+                elements.forEach((el) => {
+                  const htmlEl = el as HTMLElement;
+                  htmlEl.style.opacity = '1';
+                  htmlEl.style.transform = 'none';
+                });
+              }
             });
 
             // Unobserve after animation

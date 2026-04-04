@@ -1,0 +1,135 @@
+/* Stack Section Styles */
+
+.stackSection {
+  position: relative;
+  z-index: 2;
+  padding: var(--section-padding-vertical) var(--section-padding-horizontal);
+  background: transparent;
+}
+
+.container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Section Header */
+.sectionLabel {
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+.sectionDescription {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  max-width: 540px;
+  line-height: 1.5;
+  margin-bottom: 4rem;
+}
+
+/* Skills Grid */
+.skillsGridWrapper {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 0.5rem;
+}
+
+.skillsGrid {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(170px, 1fr));
+  gap: 1rem;
+  min-width: 914px;
+}
+
+/* Stack Column */
+.stackCol {
+  opacity: 0;
+  min-width: 0;
+}
+
+.categoryHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid rgba(148, 142, 157, 0.06);
+}
+
+.categoryIcon {
+  font-size: 1.2rem;
+  line-height: 1;
+}
+
+.categoryTitle {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+/* Skills List */
+.skillsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.skillRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 1rem;
+  background: rgba(10, 10, 10, 0.4);
+  border: 1px solid rgba(148, 142, 157, 0.06);
+  border-radius: 4px;
+  transition: all 0.3s var(--transition-base);
+  opacity: 1;
+}
+
+.skillRow:hover {
+  background: rgba(148, 142, 157, 0.04);
+  border-color: rgba(148, 142, 157, 0.12);
+  transform: translateX(4px);
+}
+
+.skillIcon {
+  font-size: 1rem;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.skillName {
+  font-size: 0.9rem;
+  color: var(--text-primary);
+  font-weight: 400;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .stackSection {
+    padding: 4rem var(--section-padding-horizontal);
+  }
+
+  .skillsGrid {
+    gap: 0.85rem;
+  }
+
+  .stackCol {
+    min-width: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .sectionDescription {
+    margin-bottom: 2.5rem;
+  }
+}

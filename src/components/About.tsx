@@ -1,6 +1,7 @@
 "use client";
 
 import { useObserverAnimation } from "@/hooks/useObserverAnimation";
+import styles from "./About.module.css";
 
 export default function About() {
   const sectionRef = useObserverAnimation({
@@ -15,164 +16,70 @@ export default function About() {
     <section
       id="sobre-mi"
       ref={sectionRef}
-      style={{
-        padding: "7rem 2rem",
-        position: "relative",
-        zIndex: 2,
-        scrollSnapAlign: "start",
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-      }}
+      className={styles.aboutSection}
     >
-      <div
-        style={{
-          maxWidth: "1100px",
-          margin: "0 auto",
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: "5rem",
-          alignItems: "start",
-        }}
-      >
+      <div className={styles.container}>
         {/* Left */}
-        <div className="about-col" style={{ opacity: 0 }}>
+        <div className={`about-col ${styles.aboutCol}`}>
           <div className="section-label">
             <span className="accent-line" />
             Sobre mí
           </div>
 
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(1.8rem, 3.5vw, 2.5rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.03em",
-              lineHeight: 1.1,
-              marginBottom: "1.5rem",
-            }}
-          >
+          <h2 className={styles.sectionTitle}>
             Construyo con{" "}
-            <span style={{ color: "var(--accent-primary)" }}>propósito</span>
+            <span className={styles.accent}>propósito</span>
             ,<br />
             no con templates.
           </h2>
 
-          <p
-            style={{
-              color: "var(--text-secondary)",
-              lineHeight: 1.75,
-              fontSize: "0.95rem",
-              marginBottom: "1.25rem",
-            }}
-          >
+          <p className={styles.bioParagraph}>
             Soy Ingeniero de Software en formación, especializado en el
             desarrollo de aplicaciones robustas bajo principios de{" "}
-            <strong style={{ color: "var(--text-primary)", fontWeight: 500 }}>
+            <strong>
               Clean Architecture
             </strong>{" "}
-            y <strong style={{ color: "var(--text-primary)", fontWeight: 500 }}>SOLID</strong>.
+            y <strong>SOLID</strong>.
           </p>
-          <p
-            style={{
-              color: "var(--text-secondary)",
-              lineHeight: 1.75,
-              fontSize: "0.95rem",
-              marginBottom: "1.25rem",
-            }}
-          >
+          <p className={styles.bioParagraph}>
             Tengo experiencia diseñando sistemas escalables con el stack PERN y
-            despliegue en infraestructuras Cloud, priorizando el desacoplamiento
+            despliegue en infraestructuras Cloud como AWS y herramientas como Docker, priorizando el desacoplamiento
             de la lógica de negocio y la eficiencia en el acceso a datos.
           </p>
-          <p
-            style={{
-              color: "var(--text-secondary)",
-              lineHeight: 1.75,
-              fontSize: "0.95rem",
-            }}
-          >
+          <p className={styles.bioParagraph}>
             Me apasiona resolver problemas desde sus{" "}
-            <strong style={{ color: "var(--text-primary)", fontWeight: 500 }}>
+            <strong>
               fundamentos teóricos
             </strong>
-            , no solo desde la superficie.
+            , no solo desde la superficie y proponer soluciones eficientes.
           </p>
         </div>
 
         {/* Right */}
-        <div className="about-col" style={{ opacity: 0, display: "flex", flexDirection: "column", gap: "1.5rem" }}>
+        <div className={`about-col ${styles.aboutCol} ${styles.rightColumn}`}>
           {/* Education card */}
-          <div
-            style={{
-              background: "var(--bg-card)",
-              borderRadius: "var(--radius-card)",
-              padding: "1.75rem",
-              transition: "all 0.4s var(--transition-base)",
-            }}
-            onMouseEnter={(e) =>
-              ((e.currentTarget as HTMLDivElement).style.background =
-                "var(--bg-elevated)")
-            }
-            onMouseLeave={(e) =>
-              ((e.currentTarget as HTMLDivElement).style.background =
-                "var(--bg-card)")
-            }
-          >
-            <div className="section-label" style={{ marginBottom: "1rem" }}>
+          <div className={styles.educationCard}>
+            <div className={`section-label ${styles.cardLabel}`}>
               <span className="accent-line" />
               Formación
             </div>
-            <p
-              style={{
-                fontFamily: "var(--font-display)",
-                fontWeight: 600,
-                fontSize: "0.95rem",
-                marginBottom: "4px",
-              }}
-            >
+            <p className={styles.universityName}>
               Universidad Politécnica de Chiapas
             </p>
-            <p
-              style={{ color: "var(--text-secondary)", fontSize: "0.85rem", marginBottom: "4px" }}
-            >
-              Ingeniería en Desarrollo de Software
+            <p className={styles.degreeName}>
+              Ingeniería en Tecnologías de la Información e Innovación Digital
             </p>
-            <p
-              style={{
-                fontFamily: "var(--font-mono)",
-                fontSize: "0.72rem",
-                color: "var(--text-muted)",
-              }}
-            >
-              Sep. 2023 – Dic. 2027 (previsto) · 5° Cuatrimestre
+            <p className={styles.period}>
+              Ago. 2024 – Dic. 2027
             </p>
-            <div
-              style={{
-                marginTop: "1rem",
-                display: "flex",
-                flexWrap: "wrap",
-                gap: "6px",
-              }}
-            >
+            <div className={styles.areasList}>
               {[
                 "Arquitectura de Software",
                 "Desarrollo Web",
                 "APIs RESTful",
                 "BD Relacionales",
               ].map((area) => (
-                <span
-                  key={area}
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "0.65rem",
-                    padding: "3px 8px",
-                    borderRadius: "4px",
-                    background: "rgba(167,139,250,0.08)",
-                    color: "var(--accent-primary)",
-                    border: "1px solid rgba(167,139,250,0.15)",
-                  }}
-                >
+                <span key={area} className={styles.areaTag}>
                   {area}
                 </span>
               ))}
@@ -180,88 +87,32 @@ export default function About() {
           </div>
 
           {/* Info cards row */}
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem" }}>
+          <div className={styles.infoCardsRow}>
             {/* Location */}
-            <div
-              style={{
-                background: "var(--bg-card)",
-                border: "1px solid var(--border)",
-                borderRadius: "var(--radius-card)",
-                padding: "1.25rem",
-                transition: "border-color 0.3s",
-              }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLDivElement).style.borderColor =
-                  "var(--border-hover)")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLDivElement).style.borderColor =
-                  "var(--border)")
-              }
-            >
-              <p
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "0.65rem",
-                  color: "var(--text-muted)",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  marginBottom: "6px",
-                }}
-              >
+            <div className={styles.infoCard}>
+              <p className={styles.infoCardLabel}>
                 Ubicación
               </p>
-              <p
-                style={{
-                  fontSize: "0.85rem",
-                  fontWeight: 500,
-                  color: "var(--text-primary)",
-                }}
-              >
+              <p className={styles.locationPrimary}>
                 Tuxtla Gutiérrez
               </p>
-              <p style={{ fontSize: "0.78rem", color: "var(--text-secondary)" }}>
+              <p className={styles.locationSecondary}>
                 Chiapas, México
               </p>
             </div>
 
             {/* Languages */}
-            <div
-              style={{
-                background: "var(--bg-card)",
-                border: "1px solid var(--border)",
-                borderRadius: "var(--radius-card)",
-                padding: "1.25rem",
-                transition: "border-color 0.3s",
-              }}
-              onMouseEnter={(e) =>
-                ((e.currentTarget as HTMLDivElement).style.borderColor =
-                  "var(--border-hover)")
-              }
-              onMouseLeave={(e) =>
-                ((e.currentTarget as HTMLDivElement).style.borderColor =
-                  "var(--border)")
-              }
-            >
-              <p
-                style={{
-                  fontFamily: "var(--font-mono)",
-                  fontSize: "0.65rem",
-                  color: "var(--text-muted)",
-                  letterSpacing: "0.1em",
-                  textTransform: "uppercase",
-                  marginBottom: "8px",
-                }}
-              >
+            <div className={styles.infoCard}>
+              <p className={styles.languagesLabel}>
                 Idiomas
               </p>
-              <p style={{ fontSize: "0.83rem", fontWeight: 500, color: "var(--text-primary)" }}>
-                Español <span style={{ color: "var(--accent-primary)" }}>Nativo</span>
+              <p className={styles.languageItem}>
+                Español Nativo
               </p>
-              <p style={{ fontSize: "0.83rem", fontWeight: 500, color: "var(--text-primary)" }}>
+              <p className={styles.languageItem}>
                 Inglés{" "}
-                <span style={{ color: "var(--text-muted)", fontFamily: "var(--font-mono)", fontSize: "0.7rem" }}>
-                  B1 Técnico
+                <span className={styles.languageLevel}>
+                  B1 Intermedio
                 </span>
               </p>
             </div>

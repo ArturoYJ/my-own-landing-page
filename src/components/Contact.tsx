@@ -1,13 +1,16 @@
 "use client";
 
 import { useObserverAnimation } from "@/hooks/useObserverAnimation";
+import styles from "./Contact.module.css";
 
 const contactLinks = [
   {
     label: "Email",
     value: "yionjaime@gmail.com",
     href: "mailto:yionjaime@gmail.com",
-    icon: "✉",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+    ),
     accent: "#a78bfa",
     description: "Escríbeme directamente",
     ariaLabel: "Enviar email a Arturo Yion",
@@ -16,7 +19,9 @@ const contactLinks = [
     label: "LinkedIn",
     value: "linkedin.com/in/arturo-yion",
     href: "https://linkedin.com/in/arturo-yion",
-    icon: "in",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+    ),
     accent: "#a78bfa",
     description: "Perfil profesional",
     mono: true,
@@ -26,7 +31,9 @@ const contactLinks = [
     label: "GitHub",
     value: "github.com/ArturoYJ",
     href: "https://github.com/ArturoYJ",
-    icon: "⌥",
+    icon: (
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+    ),
     accent: "#a78bfa",
     description: "Código y proyectos",
     ariaLabel: "Visitar perfil de GitHub",
@@ -45,55 +52,25 @@ export default function Contact() {
     <section
       id="contacto"
       ref={sectionRef}
-      style={{
-        padding: "7rem 2rem 6rem",
-        background: "transparent", // Unified starry background
-        position: "relative",
-        zIndex: 2,
-        scrollSnapAlign: "start",
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-      }}
+      className={styles.contactSection}
     >
-      <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+      <div className={styles.container}>
         <div className="section-label">
           <span className="accent-line" />
           Contacto
         </div>
 
-        <div className="contact-heading" style={{ opacity: 0, marginBottom: "3.5rem" }}>
-          <h2
-            style={{
-              fontFamily: "var(--font-display)",
-              fontSize: "clamp(1.8rem, 4vw, 2.8rem)",
-              fontWeight: 700,
-              letterSpacing: "-0.03em",
-              lineHeight: 1.1,
-              marginBottom: "0.75rem",
-            }}
-          >
+        <div className={`contact-heading ${styles.contactHeading}`}>
+          <h2 className={styles.sectionTitle}>
             ¿Trabajamos juntos?
           </h2>
-          <p
-            style={{
-              color: "var(--text-secondary)",
-              fontSize: "1rem",
-              maxWidth: "480px",
-            }}
-          >
+          <p className={styles.sectionDescription}>
             Disponible para proyectos freelance, colaboraciones y oportunidades
             laborales. No dudes en escribirme.
           </p>
         </div>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))",
-            gap: "1.25rem",
-          }}
-        >
+        <div className={styles.cardsGrid}>
           {contactLinks.map((link) => (
             <a
               key={link.label}
@@ -101,132 +78,25 @@ export default function Contact() {
               target={link.href.startsWith("mailto") ? undefined : "_blank"}
               rel="noopener noreferrer"
               aria-label={link.ariaLabel}
-              className="contact-card"
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "1.25rem",
-                background: "var(--bg-card)",
-                borderRadius: "var(--radius-card)",
-                padding: "1.75rem",
-                textDecoration: "none",
-                transition: "all 0.4s var(--transition-base)",
-                opacity: 0,
-                color: "inherit",
-                cursor: "pointer",
-              }}
-              onMouseEnter={(e) => {
-                const el = e.currentTarget as HTMLAnchorElement;
-                el.style.background = "var(--bg-elevated)";
-                el.style.transform = "translateY(-4px)";
-                el.style.boxShadow = `0 12px 30px rgba(0,0,0,0.4), 0 0 0 1px rgba(167,139,250,0.1)`;
-              }}
-              onMouseLeave={(e) => {
-                const el = e.currentTarget as HTMLAnchorElement;
-                el.style.background = "var(--bg-card)";
-                el.style.transform = "translateY(0)";
-                el.style.boxShadow = "none";
-              }}
+              className={`contact-card ${styles.contactCard}`}
             >
-              {/* Icon */}
-              <div
-                style={{
-                  width: "44px",
-                  height: "44px",
-                  borderRadius: "10px",
-                  background: `${link.accent}15`,
-                  border: `1px solid ${link.accent}25`,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  fontFamily: link.mono ? "var(--font-mono)" : "inherit",
-                  fontSize: link.mono ? "0.75rem" : "1.1rem",
-                  color: link.accent,
-                  fontWeight: 700,
-                  flexShrink: 0,
-                }}
-              >
-                {link.icon}
+              <div className={styles.cardHeader}>
+                <span className={styles.cardLabel}>{link.label}</span>
+                <span className={styles.cardIcon}>{link.icon}</span>
               </div>
-
-              {/* Content */}
-              <div style={{ minWidth: 0 }}>
-                <p
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "0.65rem",
-                    color: link.accent,
-                    letterSpacing: "0.1em",
-                    textTransform: "uppercase",
-                    marginBottom: "3px",
-                  }}
-                >
-                  {link.label}
-                </p>
-                <p
-                  style={{
-                    fontWeight: 500,
-                    fontSize: "0.85rem",
-                    color: "var(--text-primary)",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                    whiteSpace: "nowrap",
-                  }}
-                >
-                  {link.value}
-                </p>
-                <p style={{ fontSize: "0.75rem", color: "var(--text-muted)", marginTop: "2px" }}>
-                  {link.description}
-                </p>
-              </div>
-
-              {/* Arrow */}
-              <span
-                style={{
-                  marginLeft: "auto",
-                  color: "var(--text-muted)",
-                  fontSize: "1rem",
-                  flexShrink: 0,
-                  transition: "transform 0.2s, color 0.2s",
-                }}
-              >
-                →
-              </span>
+              <p className={`${styles.cardValue} ${!link.mono ? styles.cardValueNormal : ""}`}>
+                {link.value}
+              </p>
+              <p className={styles.cardDescription}>{link.description}</p>
             </a>
           ))}
         </div>
 
         {/* Footer line */}
-        <div
-          style={{
-            marginTop: "5rem",
-            paddingTop: "2rem",
-            borderTop: "1px solid var(--border)",
-            display: "flex",
-            justifyContent: "space-between",
-            alignItems: "center",
-            flexWrap: "wrap",
-            gap: "1rem",
-          }}
-        >
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.75rem",
-              color: "var(--text-muted)",
-            }}
-          >
-            © 2026 Arturo Yion Jaime
-          </span>
-          <span
-            style={{
-              fontFamily: "var(--font-mono)",
-              fontSize: "0.75rem",
-              color: "var(--text-muted)",
-            }}
-          >
-            Construido con Next.js · Tuxtla Gutiérrez, MX
-          </span>
+        <div className={styles.footer}>
+          <p className={styles.footerText}>
+            2026 <span className={styles.footerAccent}>Arturo Yion Jaime</span> · Construido con Next.js · Tuxtla Gutiérrez, MX
+          </p>
         </div>
       </div>
     </section>

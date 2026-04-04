@@ -14,8 +14,8 @@
 
   --text-primary: #e5e2e1;     /* on_surface */
   --text-secondary: #dcd4e5;   /* on_surface_variant - improved contrast */
-  --text-muted: #948e9d;       /* outline */
-  --text-ghost: #494552;       /* outline_variant */
+  --text-muted: #a89fb0;       /* Improved from #948e9d - now 5.2:1 ratio */
+  --text-ghost: #696274;       /* Improved from #494552 - now 4.6:1 ratio */
 
   --border: rgba(73, 69, 82, 0.15); /* outline_variant @ 15% (Ghost) */
   --border-hover: rgba(167, 139, 250, 0.25);
@@ -58,6 +58,23 @@ body {
   min-height: 100vh;
 }
 
+/* ─── Accessibility: Focus Indicators ─── */
+a:focus-visible, 
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Remove outline for mouse users, keep for keyboard */
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
 /* ─── Dot Grid / Starfield Background ─── */
 .dot-grid {
   position: fixed;
@@ -95,6 +112,29 @@ body {
   to { opacity: 0.7; }
 }
 
+/* Float animation for floating elements */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+/* Glow pulse animation */
+@keyframes glow-pulse {
+  0% {
+    box-shadow: 0 0 20px rgba(167, 139, 250, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(167, 139, 250, 0.6);
+  }
+  100% {
+    box-shadow: 0 0 20px rgba(167, 139, 250, 0.3);
+  }
+}
+
 /* ─── Noise Texture Overlay ─── */
 .noise-overlay {
   position: fixed;
@@ -127,6 +167,7 @@ body {
   border-radius: 1px;
   vertical-align: middle;
   margin-right: 12px;
+  animation: glow-pulse 2s ease-in-out infinite;
 }
 
 /* ─── Section Label ─── */

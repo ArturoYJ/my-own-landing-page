@@ -1,57 +1,64 @@
 "use client";
 
+import styles from "./Stack.module.css";
 import { useObserverAnimation } from "@/hooks/useObserverAnimation";
 
+/**
+ * ARQUITECTURA DE RECURSOS EXTERNOS
+ * Aquí definimos rutas web (URLs). 
+ * Ventaja: No ocupan espacio en tu repositorio.
+ * Desventaja: Si el sitio externo cae, el logo no se verá.
+ */
 const stackGroups = [
   {
     category: "Frontend",
     color: "#3b82f6",
-    icon: "◈",
+    icon: "/icons/screen.svg",
     skills: [
-      { name: "React.js", icon: "⚛️" },
-      { name: "Next.js", icon: "▲" },
-      { name: "TypeScript", icon: "TS" },
-      { name: "JavaScript", icon: "JS" },
+      { name: "React.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
+      { name: "Next.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" },
+      { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" },
+      { name: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" },
     ],
   },
   {
     category: "Backend",
     color: "#10b981",
-    icon: "⬡",
+    icon: "/icons/backend.svg",
     skills: [
-      { name: "Node.js", icon: "⬢" },
-      { name: "Express", icon: "EX" },
-      { name: "Kotlin", icon: "K" },
+      { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" },
+      { name: "Express", icon: "https://img.icons8.com/nolan/64/express-js.png" },
+      { name: "Kotlin", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg" },
     ],
   },
   {
     category: "Databases",
     color: "#f59e0b",
-    icon: "◫",
+    icon: "/icons/database.svg",
     skills: [
-      { name: "PostgreSQL", icon: "🐘" },
-      { name: "MySQL", icon: "🐬" },
-      { name: "Firebase", icon: "🔥" },
+      { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" },
+      { name: "MySQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" },
+      { name: "Firebase", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original.svg" },
     ],
   },
   {
     category: "Infrastructure",
     color: "#8b5cf6",
-    icon: "◎",
+    icon: "/icons/cloud.svg",
     skills: [
-      { name: "AWS", icon: "☁️" },
-      { name: "Docker", icon: "🐳" },
-      { name: "GitHub Actions", icon: "⚡" },
+      { name: "AWS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" },
+      { name: "Docker", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-plain-wordmark.svg" },
+      { name: "GitHub Actions", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/githubactions/githubactions-original.svg" },
     ],
   },
   {
     category: "Tools",
     color: "#ec4899",
-    icon: "◰",
+    icon: "https://img.icons8.com/fluency/48/console.png",
     skills: [
-      { name: "Git", icon: "📦" },
-      { name: "Figma", icon: "🎨" },
-      { name: "Postman", icon: "🚀" },
+      { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" },
+      { name: "Figma", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" },
+      { name: "Postman", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg" },
     ],
   },
 ];
@@ -65,167 +72,84 @@ export default function Stack() {
   });
 
   return (
-    <section
-      id="stack"
-      ref={sectionRef}
-      style={{
-        padding: "8rem 2rem",
-        background: "transparent", // Unified starry background
-        position: "relative",
-        zIndex: 2,
-        borderTop: "1px solid var(--bg-card)",
-        borderBottom: "1px solid var(--bg-card)",
-        minHeight: "40vh",
-        display: "flex",
-        alignItems: "center",
-      }}
-    >
-      <div style={{ maxWidth: "1200px", margin: "0 auto", width: "100%" }}>
-
-        <h2
-          style={{
-            display: "flex",
-            alignItems: "center",
-            fontFamily: "var(--font-display)",
-            fontSize: "clamp(2rem, 4vw, 3rem)",
-            fontWeight: 700,
-            letterSpacing: "-0.03em",
-            marginBottom: "0.75rem",
-            lineHeight: 1.1,
-            color: "var(--accent-primary)",
-          }}
-        >
+    <section id="stack" ref={sectionRef} className={styles.stackSection}>
+      <div className={styles.container}>
+        <h2 className={styles.sectionTitle}>
           <span className="accent-line" style={{ width: "40px" }} />
           Stack Técnico
         </h2>
-        <p
-          style={{
-            color: "var(--text-secondary)",
-            fontSize: "1rem",
-            marginBottom: "4rem",
-            maxWidth: "600px",
-          }}
-        >
-          Un vistazo estructurado a las tecnologías que utilizo en mi día a día para crear soluciones completas.
+        <p className={styles.sectionDescription}>
+          Tecnologías integradas mediante recursos distribuidos (CDNs).
         </p>
 
-        <div
-          style={{
-            display: "grid",
-            gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-            gap: "2rem",
-          }}
-        >
-          {stackGroups.map((group) => (
-            <div
-              key={group.category}
-              className="stack-col"
-              style={{
-                opacity: 0,
-                display: "flex",
-                flexDirection: "column",
-                gap: "1.25rem",
-              }}
-            >
-              {/* Column Header */}
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                  paddingBottom: "0.5rem",
-                  borderBottom: `2px solid var(--border)`,
-                  marginBottom: "0.5rem",
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "1.2rem",
-                    color: group.color,
-                  }}
-                >
-                  {group.icon}
-                </span>
-                <span
-                  style={{
-                    fontFamily: "var(--font-mono)",
-                    fontSize: "0.85rem",
-                    color: "var(--text-primary)",
-                    letterSpacing: "0.05em",
-                    textTransform: "uppercase",
-                    fontWeight: 600,
-                  }}
-                >
-                  {group.category}
-                </span>
-              </div>
+        <div className={styles.skillsGridWrapper}>
+          <div className={styles.skillsGrid}>
+            {stackGroups.map((group) => (
+              <div key={group.category} className={`stack-col ${styles.stackCol}`}>
+                <div className={styles.categoryHeader}>
+                  <span className={styles.categoryIcon} style={{ color: group.color }}>
+                    {group.icon.startsWith("http") || group.icon.startsWith("/") ? (
+                      <img 
+                        src={group.icon} 
+                        alt={group.category} 
+                        style={{ 
+                          width: "25px", 
+                          height: "25px", 
+                          objectFit: "contain",
+                          display: "block"
+                        }} 
+                      />
+                    ) : (
+                      group.icon
+                    )}
+                  </span>
+                  <span className={styles.categoryTitle}>{group.category}</span>
+                </div>
 
-              {/* Skills Rows */}
-              <div style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-                {group.skills.map((skill) => (
-                  <div
-                    key={skill.name}
-                    className="skill-row"
-                    style={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "0.75rem",
-                      padding: "0.6rem 0.8rem",
-                      background: "var(--bg-card)",
-                      border: "1px solid var(--border)",
-                      borderRadius: "0px", // Rectangular logic
-                      opacity: 0,
-                      transition: "all 0.3s ease",
-                      cursor: "default",
-                    }}
-                    onMouseEnter={(e) => {
-                      const el = e.currentTarget as HTMLDivElement;
-                      el.style.background = `${group.color}15`;
-                      el.style.borderColor = `${group.color}50`;
-                      el.style.transform = "translateX(5px)";
-                    }}
-                    onMouseLeave={(e) => {
-                      const el = e.currentTarget as HTMLDivElement;
-                      el.style.background = "var(--bg-card)";
-                      el.style.borderColor = "var(--border)";
-                      el.style.transform = "translateX(0)";
-                    }}
-                  >
+                <div className={styles.skillsList}>
+                  {group.skills.map((skill) => (
                     <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        width: "28px",
-                        height: "28px",
-                        background: `${group.color}20`,
-                        border: `1px solid ${group.color}40`,
-                        borderRadius: "0px", // Rectangular logic
-                        color: group.color,
-                        fontSize: "0.9rem",
-                        fontFamily: "var(--font-mono)",
-                        fontWeight: 600,
-                        flexShrink: 0,
+                      key={skill.name}
+                      className={`skill-row ${styles.skillRow}`}
+                      onMouseEnter={(e) => {
+                        const el = e.currentTarget as HTMLDivElement;
+                        el.style.background = `${group.color}15`;
+                        el.style.borderColor = `${group.color}50`;
+                        el.style.transform = "translateX(5px) scale(1.02)";
+                      }}
+                      onMouseLeave={(e) => {
+                        const el = e.currentTarget as HTMLDivElement;
+                        el.style.background = "rgba(10, 10, 10, 0.4)";
+                        el.style.borderColor = "rgba(148, 142, 157, 0.06)";
+                        el.style.transform = "translateX(0) scale(1)";
                       }}
                     >
-                      {skill.icon}
+                      <span className={styles.skillIcon} style={{ color: group.color }}>
+                        <img
+                          src={skill.icon}
+                          alt={`Logo de ${skill.name}`}
+                          loading="lazy"
+                          decoding="async"
+                          referrerPolicy="no-referrer"
+                          style={{
+                            width: "20px",
+                            height: "20px",
+                            objectFit: "contain",
+                            display: "block",
+                          }}
+                          // Error handling: si la URL falla, mostramos el nombre
+                          onError={(e) => {
+                            (e.currentTarget as HTMLImageElement).style.display = "none";
+                          }}
+                        />
+                      </span>
+                      <span className={styles.skillName}>{skill.name}</span>
                     </div>
-                    <span
-                      style={{
-                        fontFamily: "var(--font-sans)",
-                        fontSize: "0.9rem",
-                        fontWeight: 500,
-                        color: "var(--text-primary)",
-                      }}
-                    >
-                      {skill.name}
-                    </span>
-                  </div>
-                ))}
+                  ))}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>

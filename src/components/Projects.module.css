@@ -1,0 +1,229 @@
+/* Projects Section Styles */
+
+.projectsSection {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  border-top: 1px solid var(--bg-card);
+  border-bottom: 1px solid var(--bg-card);
+}
+
+.sectionHeader {
+  padding: 5rem 2rem 2rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.sectionLabel {
+  margin-bottom: 1rem;
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 2.8rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  margin-bottom: 0.75rem;
+}
+
+.sectionDescription {
+  color: var(--text-secondary);
+  font-size: 1rem;
+  max-width: 540px;
+  line-height: 1.5;
+}
+
+/* Project Row */
+.projectRow {
+  background: transparent;
+  position: relative;
+  opacity: 0;
+  min-height: auto;
+  display: flex;
+  align-items: center;
+}
+
+.projectContainer {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+  display: grid;
+  gap: 4rem;
+  align-items: center;
+}
+
+.projectContainerEven {
+  grid-template-columns: 1.3fr 0.7fr;
+}
+
+.projectContainerOdd {
+  grid-template-columns: 0.7fr 1.3fr;
+}
+
+/* Image Container */
+.imageContainer {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(148, 142, 157, 0.12);
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.imageContainer::after {
+  content: 'CONOCER PROYECTO';
+  position: absolute;
+  inset: 0;
+  background: rgba(20, 20, 20, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
+  opacity: 0;
+  transition: all 0.4s ease;
+  backdrop-filter: grayscale(1) brightness(0.6);
+  z-index: 2;
+}
+
+.imageContainer:hover {
+  transform: translateY(-8px);
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.6);
+}
+
+.imageContainer:hover::after {
+  opacity: 1;
+}
+
+.imageContainer:focus-visible {
+  outline: 2px solid var(--accent-primary);
+  outline-offset: 4px;
+}
+
+.imageContainerEven {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.imageContainerOdd {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.imageLink {
+  display: block;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.imageLink:hover {
+  transform: scale(1.02);
+  box-shadow: 0 20px 80px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.05);
+}
+
+.detailLabel {
+  display: none; /* Removed in favor of overlay */
+}
+
+/* Text Content */
+.textContent {
+  direction: ltr;
+}
+
+.textContentEven {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+.textContentOdd {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.projectYear {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 0.75rem;
+}
+
+.projectTitle {
+  font-family: var(--font-display);
+  font-size: clamp(1.5rem, 3vw, 2.2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+  margin-bottom: 0.4rem;
+  color: var(--text-primary);
+}
+
+.projectSubtitle {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  letter-spacing: 0.02em;
+}
+
+.projectDescription {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  line-height: 1.7;
+  margin-bottom: 1.5rem;
+}
+
+/* Tags */
+.tagsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.tag {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  background: rgba(148, 142, 157, 0.04);
+  padding: 4px 10px;
+  border-radius: 3px;
+  border: 1px solid rgba(148, 142, 157, 0.08);
+  letter-spacing: 0.05em;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .projectContainerEven,
+  .projectContainerOdd {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+
+  .imageContainerEven,
+  .imageContainerOdd,
+  .textContentEven,
+  .textContentOdd {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .sectionHeader {
+    padding: 3rem 1.5rem 1.5rem;
+  }
+
+  .projectContainer {
+    padding: 2rem 1.5rem;
+  }
+}

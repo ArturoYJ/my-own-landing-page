@@ -5,12 +5,15 @@ import Stack from "@/components/Stack";
 import About from "@/components/About";
 import Contact from "@/components/Contact";
 import FrameBackground from "@/components/FrameBackground";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 export default function Home() {
   return (
     <>
       {/* Frame video background — bottommost layer */}
-      <FrameBackground />
+      <ErrorBoundary>
+        <FrameBackground />
+      </ErrorBoundary>
 
       {/* Background effects */}
       <div className="dot-grid" aria-hidden="true" />
