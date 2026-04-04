@@ -7,6 +7,7 @@ interface AnimationOptions {
     translateY?: [number, number];
     translateX?: [number, number];
     scale?: [number, number];
+    filter?: [string, string]; // Agregado para efectos "Premium" (Blur Reveal)
   };
   duration?: number;
   ease?: string;
@@ -15,18 +16,6 @@ interface AnimationOptions {
   skipIfReducedMotion?: boolean;
 }
 
-/**
- * Reusable hook for intersection observer with anime.js animations
- * Handles animations when element becomes visible in viewport
- *
- * @example
- * const ref = useObserverAnimation({
- *   selector: '.project-row',
- *   duration: 800,
- *   staggerDelay: 180,
- * });
- * return <div ref={ref} className="project-row">...</div>
- */
 export function useObserverAnimation({
   selector,
   animations = { opacity: [0, 1], translateY: [30, 0] },
@@ -39,32 +28,23 @@ export function useObserverAnimation({
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
-    // Check if user prefers reduced motion
-    if (skipIfReducedMotion) {
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if (prefersReduced) {
-        // Just remove opacity: 0 from elements without animating
-        const elements = ref.current?.querySelectorAll(selector);
-        if (elements) {
-          elements.forEach((el) => {
-            const htmlEl = el as HTMLElement;
-            htmlEl.style.opacity = '1';
-            htmlEl.style.transform = 'none';
-          });
-        }
-        return;
-      }
+    // 1. Accesibilidad: Verificamos Preferencias del Sistema
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // Si prefiere movimiento reducido, no mutamos el DOM. 
+    // Simplemente no activamos la animación. El CSS base debe tener opacidad 1.
+    if (skipIfReducedMotion && prefersReduced) {
+      return; 
     }
 
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            // Lazy load anime.js only when needed
+            // Lazy load de Anime.js (Optimización de Chunking)
             import('animejs').then((mod) => {
               const { animate, stagger } = mod;
 
-              // Build animation object dynamically
               const animationConfig = {
                 ...animations,
                 duration,
@@ -73,18 +53,9 @@ export function useObserverAnimation({
               };
 
               animate(selector, animationConfig);
-            }).catch(() => {
-              const elements = ref.current?.querySelectorAll(selector);
-              if (elements) {
-                elements.forEach((el) => {
-                  const htmlEl = el as HTMLElement;
-                  htmlEl.style.opacity = '1';
-                  htmlEl.style.transform = 'none';
-                });
-              }
-            });
+            }).catch(console.error);
 
-            // Unobserve after animation
+            // Una vez animado, desconectamos para ahorrar recursos
             observer.unobserve(entry.target);
           }
         });
@@ -96,6 +67,7 @@ export function useObserverAnimation({
       observer.observe(ref.current);
     }
 
+    // Fase de Limpieza (Evita Memory Leaks de Listeners)
     return () => {
       observer.disconnect();
     };

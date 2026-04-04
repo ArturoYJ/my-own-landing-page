@@ -290,7 +290,12 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           </div>
 
           {/* Right — sidebar */}
-          <aside style={{ position: "sticky", top: "100px" }}>
+          <aside style={{ 
+            position: "sticky", 
+            top: "100px", 
+            height: "fit-content",
+            zIndex: 10
+          }}>
             {/* Tech stack */}
             <div
               style={{

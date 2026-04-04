@@ -1,3 +1,4 @@
+// src/components/Hero.tsx
 "use client";
 
 import { useEffect, useRef } from "react";
@@ -13,80 +14,111 @@ const roles = [
 export default function Hero() {
   const roleRef = useRef<HTMLSpanElement>(null);
   const photoRef = useRef<HTMLDivElement>(null);
+  const magneticButtonRef = useRef<HTMLAnchorElement>(null);
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout; // Referencia para el Garbage Collector
+    let isMounted = true; // Bandera de seguridad para operaciones asíncronas
+
     import("animejs").then((mod) => {
+      if (!isMounted) return;
       const { createTimeline, stagger } = mod;
 
-      // ── Entrance animation timeline ──
       const tl = createTimeline({});
 
-      tl.add(".hero-tag", { opacity: [0, 1], translateY: [16, 0], duration: 600, ease: "outExpo" })
-        .add(".hero-name", { opacity: [0, 1], translateY: [40, 0], duration: 900, ease: "outExpo" }, "-=300")
+      // Mejora UI/UX: Añadimos 'filter' para un efecto de revelación (Blur Reveal) premium
+      tl.add(".hero-tag", { opacity: [0, 1], translateY: [16, 0], filter: ['blur(12px)', 'blur(0px)'], duration: 600, ease: "outExpo" })
+        .add(".hero-name", { opacity: [0, 1], translateY: [40, 0], filter: ['blur(12px)', 'blur(0px)'], duration: 900, ease: "outExpo" }, "-=300")
         .add(".hero-role-line", { opacity: [0, 1], translateY: [20, 0], duration: 700, ease: "outExpo" }, "-=500")
         .add(".hero-desc", { opacity: [0, 1], translateY: [20, 0], duration: 700, ease: "outExpo" }, "-=400")
         .add(".hero-ctas", { opacity: [0, 1], translateY: [20, 0], duration: 600, ease: "outExpo" }, "-=400")
-        .add(".hero-photo", { opacity: [0, 1], scale: [0.92, 1], duration: 900, ease: "outExpo" }, "-=900")
+        .add(".hero-photo", { opacity: [0, 1], scale: [0.92, 1], filter: ['blur(20px)', 'blur(0px)'], duration: 900, ease: "outExpo" }, "-=900")
         .add(".stat-item", { opacity: [0, 1], translateY: [16, 0], delay: stagger(120), duration: 500, ease: "outExpo" }, "-=400");
 
-      // ── Typewriter role ──
       let roleIndex = 0;
       let charIndex = 0;
       let isDeleting = false;
-      const el = roleRef.current;
-      if (!el) return;
 
       function typeWriter() {
-        if (!el) return;
+        const el = roleRef.current;
+        if (!el || !isMounted) return;
+
         const currentRole = roles[roleIndex];
+        
         if (isDeleting) {
           el.textContent = currentRole.slice(0, charIndex - 1);
           charIndex--;
           if (charIndex === 0) {
             isDeleting = false;
             roleIndex = (roleIndex + 1) % roles.length;
-            setTimeout(typeWriter, 400);
+            timeoutId = setTimeout(typeWriter, 400);
             return;
           }
-          setTimeout(typeWriter, 50);
+          timeoutId = setTimeout(typeWriter, 50);
         } else {
           el.textContent = currentRole.slice(0, charIndex + 1);
           charIndex++;
           if (charIndex === currentRole.length) {
             isDeleting = true;
-            setTimeout(typeWriter, 2000);
+            timeoutId = setTimeout(typeWriter, 2000);
             return;
           }
-          setTimeout(typeWriter, 80);
+          timeoutId = setTimeout(typeWriter, 80);
         }
       }
-      setTimeout(typeWriter, 1800);
+      
+      timeoutId = setTimeout(typeWriter, 1800);
     });
+
+    // Cleanup function: Destruye el timeout cuando el componente muere
+    return () => {
+      isMounted = false;
+      clearTimeout(timeoutId);
+    };
   }, []);
 
-  // Parallax effect on photo (respects prefers-reduced-motion)
+  // Parallax y Botón Magnético delegados al Animation Frame
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion || !photoRef.current) return;
+    if (prefersReducedMotion) return;
 
-    const PARALLAX_DISTANCE = 10; // pixels - max movement distance
     let animationFrameId: number;
 
     const handleMouseMove = (e: MouseEvent) => {
-      if (!photoRef.current) return;
-
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
 
       animationFrameId = requestAnimationFrame(() => {
-        if (!photoRef.current) return;
-
         const { clientX, clientY } = e;
         const { innerWidth, innerHeight } = window;
 
-        const x = (clientX - innerWidth / 2) / innerWidth;
-        const y = (clientY - innerHeight / 2) / innerHeight;
+        // 1. Parallax de la foto
+        if (photoRef.current) {
+          const PARALLAX_DISTANCE = 10;
+          const x = (clientX - innerWidth / 2) / innerWidth;
+          const y = (clientY - innerHeight / 2) / innerHeight;
+          photoRef.current.style.transform = `translate(${x * PARALLAX_DISTANCE}px, ${y * PARALLAX_DISTANCE}px)`;
+        }
 
-        photoRef.current.style.transform = `translate(${x * PARALLAX_DISTANCE}px, ${y * PARALLAX_DISTANCE}px)`;
+        // 2. Efecto Magnético del Botón Principal
+        if (magneticButtonRef.current) {
+          const btn = magneticButtonRef.current;
+          const rect = btn.getBoundingClientRect();
+          const btnCenterX = rect.left + rect.width / 2;
+          const btnCenterY = rect.top + rect.height / 2;
+          
+          const distanceX = clientX - btnCenterX;
+          const distanceY = clientY - btnCenterY;
+          const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
+
+          // Si el cursor está a menos de 100px, atraemos el botón
+          if (distance < 100) {
+            const pullX = distanceX * 0.2; // Fuerza magnética
+            const pullY = distanceY * 0.2;
+            btn.style.transform = `translate(${pullX}px, ${pullY}px)`;
+          } else {
+            btn.style.transform = 'translate(0px, 0px)';
+          }
+        }
       });
     };
 
@@ -99,67 +131,46 @@ export default function Hero() {
   }, []);
 
   return (
-    <section
-      id="hero"
-      className={styles.heroSection}
-    >
+    <section id="hero" className={styles.heroSection}>
       <div className={styles.heroContainer}>
-        {/* Left — Text */}
         <div>
-          {/* Status tag */}
           <div className={`hero-tag ${styles.heroTag}`}>
             <span className={styles.tagDot} />
-            <span>
-              Disponible para colaborar
-            </span>
+            <span>Disponible para colaborar</span>
           </div>
 
-          {/* Name */}
-          <h1 className={`hero-name ${styles.heroName}`}>
+          {/* Mejora UI: tracking-tight para emular diseño editorial moderno */}
+          <h1 className={`hero-name ${styles.heroName} tracking-tighter`}>
             Arturo
             <br />
             <span className={styles.nameSecondary}>Yion Jaime</span>
           </h1>
 
-          {/* Role typewriter */}
           <div className={`hero-role-line ${styles.heroRoleLine}`}>
             <span className={styles.rolePrompt}>&gt;_</span>
-            <span
-              ref={roleRef}
-              className={styles.roleText}
-            >
-              Software Engineer
-            </span>
+            <span ref={roleRef} className={styles.roleText}>Software Engineer</span>
           </div>
 
-          {/* Description */}
           <p className={`hero-desc ${styles.heroDescription}`}>
             Sistemas robustos bajo principios de <strong>Clean Architecture</strong> y <strong>SOLID</strong>. 
             Especializado en el stack PERN con infraestructura en AWS. 
             Resolviendo problemas desde sus fundamentos técnicos.
           </p>
 
-          {/* CTAs */}
           <div className={`hero-ctas ${styles.heroCtas}`}>
             <a
+              ref={magneticButtonRef}
               href="#proyectos"
-              aria-label="Ir a la sección de proyectos destacados"
               className={styles.ctaPrimary}
+              style={{ transition: 'transform 0.1s cubic-bezier(0.25, 1, 0.5, 1)' }}
             >
               Ver proyectos
             </a>
-            <a
-              href="https://github.com/ArturoYJ"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label="Visitar perfil de GitHub en una nueva ventana"
-              className={styles.ctaSecondary}
-            >
+            <a href="https://github.com/ArturoYJ" target="_blank" rel="noopener noreferrer" className={styles.ctaSecondary}>
               GitHub <span>→</span>
             </a>
           </div>
 
-          {/* Stats */}
           <div className={`hero-stats ${styles.heroStats}`}>
             {[{ value: "+4", label: "Proyectos" }, { value: "PERN", label: "Stack" }, { value: "AWS", label: "Cloud" }].map((stat) => (
               <div key={stat.label} className={`stat-item ${styles.statItem}`}>
@@ -170,23 +181,19 @@ export default function Hero() {
           </div>
         </div>
 
-        {/* Right — Photo */}
         <div className={`hero-photo ${styles.heroPhotoContainer}`}>
           <div className={styles.photoRingOuter} />
           <div className={styles.photoRingInner} />
-          <div
-            ref={photoRef}
-            className={styles.photoWrapper}
-          >
+          <div ref={photoRef} className={styles.photoWrapper}>
             <Image 
               src="/foto.jpg" 
-              alt="Arturo Yion Jaime — Software Engineer" 
+              alt="Arturo Yion Jaime" 
               fill 
               sizes="(max-width: 768px) 220px, 320px" 
               style={{ objectFit: "cover", objectPosition: "center top" }} 
               priority 
               placeholder="blur"
-              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAgGBgcGBQgHBwcJCQgKDBQNDAsLDBkSEw8UHRofHh0aHBwgJC4nICIsIxwcKDcpLDAxNDQ0Hyc5PTgyPC4zNDL/2wBDAQkJCQwLDBgNDRgyIRwhMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjL/wAARCAAIAAoDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAb/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQ..."
             />
           </div>
         </div>

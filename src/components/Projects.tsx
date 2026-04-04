@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useObserverAnimation } from "@/hooks/useObserverAnimation";
@@ -16,9 +16,9 @@ const projects = [
     tags: ["Next.js", "Express.js", "PostgreSQL", "Docker", "AWS"],
     year: "Mar 2026",
     accent: "#a78bfa",
-    image: "/glamstock.png",
+    images: ["/glamstock.png", "/glamstock2.png", "/glamstock3.png", "/glamstock4.png"],
     bgDark: false,
-    fit: "contain" as "contain" | "cover",
+    fit: "cover" as "contain" | "cover",
     bgColor: "#fefeff",
   },
   {
@@ -30,7 +30,7 @@ const projects = [
     tags: ["Angular", "Kotlin", "Ktor", "PostgreSQL"],
     year: "2025 – Present",
     accent: "#34d399",
-    image: "/huginmunin.png",
+    images: ["/huginmunin.png"],
     bgDark: true,
     fit: "cover" as "contain" | "cover",
   },
@@ -43,12 +43,22 @@ const projects = [
     tags: ["Kotlin", "Jetpack Compose", "Firebase", "MVVM"],
     year: "Nov 2025",
     accent: "#60a5fa",
-    image: "/pillup1.png",
+    images: [
+      "/pillup.png", 
+      "/pillup1.png", 
+      "/pillup2.png", 
+      "/pillup3.png", 
+      "/pillup4.png", 
+      "/pillup5.png",
+      "/pillup6.png",
+      "/pillup7.png"
+    ],
     bgDark: false,
-    fit: "contain" as "contain" | "cover",
+    fit: "cover" as "contain" | "cover",
     bgColor: "#f8fafc",
   },
 ];
+
 
 export default function Projects() {
   const sectionRef = useObserverAnimation({
@@ -90,6 +100,19 @@ type Project = (typeof projects)[0];
 
 function ProjectRow({ project, index }: { project: Project; index: number }) {
   const isEven = index % 2 === 0;
+  const [currentIdx, setCurrentIdx] = useState(0);
+
+  const nextImage = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentIdx((prev) => (prev + 1) % project.images.length);
+  };
+
+  const prevImage = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setCurrentIdx((prev) => (prev - 1 + project.images.length) % project.images.length);
+  };
 
   return (
     <div className={`project-row ${styles.projectRow}`}>
@@ -122,20 +145,61 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
             borderColor: `${project.accent}20`,
             borderRadius: "12px",
             transition: "all 0.35s cubic-bezier(0.4,0,0.2,1)",
-          }}
+            position: "relative",
+            overflow: "hidden",
+            "--project-accent": project.accent
+          } as any}
         >
-          <Image
-            src={project.image}
-            alt={`Captura de pantalla: ${project.title}`}
-            fill
-            sizes="(max-width: 768px) 10vw, 50vw"
-            priority={index === 0}
-            loading={index === 0 ? "eager" : "lazy"}
-            style={{ 
-              objectFit: project.fit || "cover",
-              backgroundColor: project.bgColor || "transparent",
-            }}
-          />
+          {/* Main Image */}
+          <div style={{ position: "relative", width: "100%", height: "100%" }}>
+            <Image
+              src={project.images[currentIdx]}
+              alt={`Captura ${currentIdx + 1}: ${project.title}`}
+              fill
+              sizes="(max-width: 768px) 100vw, 50vw"
+              priority={index === 0}
+              loading={index === 0 ? "eager" : "lazy"}
+              style={{ 
+                objectFit: project.fit || "cover",
+                backgroundColor: project.bgColor || "transparent",
+              }}
+            />
+          </div>
+
+          {/* Carousel Arrows */}
+          {project.images.length > 1 && (
+            <div className={styles.carouselArrows}>
+              <button 
+                onClick={prevImage}
+                className={styles.arrowBtn}
+                aria-label="Imagen anterior"
+                style={{ left: '1rem' }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+              </button>
+              <button 
+                onClick={nextImage}
+                className={styles.arrowBtn}
+                aria-label="Siguiente imagen"
+                style={{ right: '1rem' }}
+              >
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+              </button>
+            </div>
+          )}
+
+          {/* Carousel Indicators (Dots) */}
+          {project.images.length > 1 && (
+            <div className={styles.indicators}>
+              {project.images.map((_, i) => (
+                <div 
+                  key={i} 
+                  className={`${styles.indicator} ${i === currentIdx ? styles.indicatorActive : ""}`}
+                />
+              ))}
+            </div>
+          )}
+
           {/* "Ver detalle" label */}
           <div
             className={styles.detailLabel}

@@ -313,3 +313,14 @@ button:focus:not(:focus-visible) {
 @media (min-width: 1025px) {
   /* Maintain current styles, add any optimizations */
 }
+
+@theme {
+  /* Mapeando tus TOKENS a variables nativas de Tailwind v4 */
+  --color-surface: #121212; /* Ajusta tus colores exactos aquí */
+  --color-surface-variant: #1e1e1e;
+  --color-on-surface: #ffffff;
+  --color-on-surface-variant: #a0a0a0;
+  --color-primary: #a78bfa;
+  --color-primary-container: #8b5cf6;
+  --color-outline-variant: #333333;
+}
