@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import ProjectCarousel from "@/components/ProjectCarousel";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 /* ─── Project data ─── */
 const projects = {
@@ -54,7 +55,7 @@ const projects = {
       "Integración exitosa con el flujo operativo del zoológico.",
     ],
     tags: ["Angular", "Kotlin", "Ktor", "PostgreSQL", "Hexagonal Architecture", "REST API"],
-    github: "https://github.com/ArturoYJ",
+    github: "https://github.com/ArturoYJ/hugin_munin_ng",
     fit: "cover",
   },
   pillup: {
@@ -87,7 +88,7 @@ const projects = {
     tags: ["Kotlin", "Jetpack Compose", "Firebase", "MVVM", "LiveData", "ViewModel", "Android"],
     github: "https://github.com/ArturoYJ/PillUp",
     fit: "contain",
-    aspectRatio: "16 / 10",
+    aspectRatio: "16 / 9",
   },
 };
 
@@ -114,6 +115,10 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
 
   return (
     <>
+      {/* Background Effects (No Video) */}
+      <div className="dot-grid" aria-hidden="true" />
+      <div className="noise-overlay" aria-hidden="true" />
+
       <Nav />
       <main
         style={{
@@ -127,8 +132,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
         <div
           style={{
             position: "relative",
-            padding: "5rem 2rem 4rem",
-            borderBottom: "1px solid var(--border)",
+            padding: "5rem 0 1.5rem",
             overflow: "hidden",
           }}
         >
@@ -142,7 +146,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             }}
           />
 
-          <div style={{ maxWidth: "1100px", margin: "0 auto", position: "relative" }}>
+          <div style={{ maxWidth: "1300px", margin: "0 auto", padding: "0 2rem", position: "relative" }}>
             {/* Back link */}
             <Link
               href="/#proyectos"
@@ -187,9 +191,9 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
         {/* Content */}
         <div
           style={{
-            maxWidth: "1350px",
+            maxWidth: "1300px",
             margin: "0 auto",
-            padding: "4rem 2rem 6rem",
+            padding: "0.5rem 2rem 6rem",
             display: "grid",
             gridTemplateColumns: "1fr 380px",
             gap: "5rem",
@@ -295,7 +299,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           }}>
             <div style={{
               position: "sticky", 
-              top: "20vh", 
+              top: "120px", 
               height: "fit-content",
               zIndex: 10
             }}>

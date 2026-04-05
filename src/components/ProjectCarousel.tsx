@@ -24,7 +24,7 @@ export default function ProjectCarousel({
   title, 
   accent,
   fit = "cover",
-  aspectRatio = "16/10"
+  aspectRatio = "16/9"
 }: ProjectCarouselProps) {
   const [currentIdx, setCurrentIdx] = useState(0);
   const [direction, setDirection] = useState<"next" | "prev">("next");

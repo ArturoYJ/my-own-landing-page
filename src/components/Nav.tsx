@@ -26,16 +26,17 @@ export default function Nav() {
   // Smooth scroll indicator: detect which section is in viewport
   useEffect(() => {
     const observerOptions = {
-      threshold: 0.3,
-      rootMargin: "0px 0px -50% 0px",
+      threshold: [0.05, 0.1, 0.2], // Multiple thresholds for better sensitivity
+      rootMargin: "-15% 0px -45% 0px", // Detect section in the upper-middle window of the screen
     };
 
     const observer = new IntersectionObserver((entries) => {
       // Only update state for the section with highest intersection ratio
-      const visible = entries.filter((e) => e.isIntersecting);
-      if (visible.length > 0) {
-        const active = visible.reduce((a, b) =>
-          a.intersectionRatio > b.intersectionRatio ? a : b
+      const isIntersecting = entries.filter((e) => e.isIntersecting);
+      if (isIntersecting.length > 0) {
+        // Pick the section occupying the most vertical pixels in the root area
+        const active = isIntersecting.reduce((a, b) =>
+          a.intersectionRect.height > b.intersectionRect.height ? a : b
         );
         setActiveSection(active.target.id);
       }

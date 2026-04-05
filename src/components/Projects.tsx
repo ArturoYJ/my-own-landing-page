@@ -43,7 +43,7 @@ const projects = [
     tags: ["Kotlin", "Jetpack Compose", "Firebase", "MVVM"],
     year: "Nov 2025",
     accent: "#60a5fa",
-    image: "/pillup/original/dashboard.png",
+    image: "/pillup/original/next.png",
     bgDark: false,
     fit: "cover" as "contain" | "cover",
     bgColor: "#f8fafc",
@@ -133,7 +133,7 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
               src={project.image}
               alt={`Captura del proyecto ${project.title}`}
               fill
-              sizes="(max-width: 768px) 100vw, 50vw"
+              sizes="(max-width: 900px) 100vw, 90vw"
               priority={index === 0}
               loading={index === 0 ? "eager" : "lazy"}
               style={{ 
