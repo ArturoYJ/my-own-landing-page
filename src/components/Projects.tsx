@@ -16,7 +16,7 @@ const projects = [
     tags: ["Next.js", "Express.js", "PostgreSQL", "Docker", "AWS"],
     year: "Mar 2026",
     accent: "#a78bfa",
-    images: ["/glamstock.png", "/glamstock2.png", "/glamstock3.png", "/glamstock4.png"],
+    image: "/glamstock/glamstock.png",
     bgDark: false,
     fit: "cover" as "contain" | "cover",
     bgColor: "#fefeff",
@@ -30,7 +30,7 @@ const projects = [
     tags: ["Angular", "Kotlin", "Ktor", "PostgreSQL"],
     year: "2025 – Present",
     accent: "#34d399",
-    images: ["/huginmunin.png"],
+    image: "/hugin/huginmunin.png",
     bgDark: true,
     fit: "cover" as "contain" | "cover",
   },
@@ -43,16 +43,7 @@ const projects = [
     tags: ["Kotlin", "Jetpack Compose", "Firebase", "MVVM"],
     year: "Nov 2025",
     accent: "#60a5fa",
-    images: [
-      "/pillup.png", 
-      "/pillup1.png", 
-      "/pillup2.png", 
-      "/pillup3.png", 
-      "/pillup4.png", 
-      "/pillup5.png",
-      "/pillup6.png",
-      "/pillup7.png"
-    ],
+    image: "/pillup/original/dashboard.png",
     bgDark: false,
     fit: "cover" as "contain" | "cover",
     bgColor: "#f8fafc",
@@ -100,19 +91,6 @@ type Project = (typeof projects)[0];
 
 function ProjectRow({ project, index }: { project: Project; index: number }) {
   const isEven = index % 2 === 0;
-  const [currentIdx, setCurrentIdx] = useState(0);
-
-  const nextImage = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setCurrentIdx((prev) => (prev + 1) % project.images.length);
-  };
-
-  const prevImage = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    setCurrentIdx((prev) => (prev - 1 + project.images.length) % project.images.length);
-  };
 
   return (
     <div className={`project-row ${styles.projectRow}`}>
@@ -147,14 +125,13 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
             transition: "all 0.35s cubic-bezier(0.4,0,0.2,1)",
             position: "relative",
             overflow: "hidden",
-            "--project-accent": project.accent
-          } as any}
+          }}
         >
           {/* Main Image */}
           <div style={{ position: "relative", width: "100%", height: "100%" }}>
             <Image
-              src={project.images[currentIdx]}
-              alt={`Captura ${currentIdx + 1}: ${project.title}`}
+              src={project.image}
+              alt={`Captura del proyecto ${project.title}`}
               fill
               sizes="(max-width: 768px) 100vw, 50vw"
               priority={index === 0}
@@ -165,40 +142,6 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
               }}
             />
           </div>
-
-          {/* Carousel Arrows */}
-          {project.images.length > 1 && (
-            <div className={styles.carouselArrows}>
-              <button 
-                onClick={prevImage}
-                className={styles.arrowBtn}
-                aria-label="Imagen anterior"
-                style={{ left: '1rem' }}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-              </button>
-              <button 
-                onClick={nextImage}
-                className={styles.arrowBtn}
-                aria-label="Siguiente imagen"
-                style={{ right: '1rem' }}
-              >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-              </button>
-            </div>
-          )}
-
-          {/* Carousel Indicators (Dots) */}
-          {project.images.length > 1 && (
-            <div className={styles.indicators}>
-              {project.images.map((_, i) => (
-                <div 
-                  key={i} 
-                  className={`${styles.indicator} ${i === currentIdx ? styles.indicatorActive : ""}`}
-                />
-              ))}
-            </div>
-          )}
 
           {/* "Ver detalle" label */}
           <div

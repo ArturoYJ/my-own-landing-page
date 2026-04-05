@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import Nav from "@/components/Nav";
+import ProjectCarousel from "@/components/ProjectCarousel";
 
 /* ─── Project data ─── */
 const projects = {
@@ -12,7 +13,7 @@ const projects = {
     subtitle: "Sistema de Inventarios para PyMEs",
     year: "Mar 2026",
     accent: "#a78bfa",
-    image: "/glamstock.png",
+    images: ["/glamstock/glamstock.png", "/glamstock/glamstock2.png", "/glamstock/glamstock3.png", "/glamstock/glamstock4.png"],
     overview:
       "GlamStock es un sistema de gestión de inventarios diseñado específicamente para pequeñas y medianas empresas del sector retail y cosmético. Nació como un monolito y evolucionó a una Arquitectura Orientada a Servicios (SOA) para mejorar su escalabilidad y mantenimiento.",
     challenges: [
@@ -29,6 +30,7 @@ const projects = {
     ],
     tags: ["Next.js", "Express.js", "PostgreSQL", "Docker", "AWS EC2", "AWS RDS", "Zod", "TypeScript"],
     github: "https://github.com/ArturoYJ/GlamStock",
+    fit: "cover",
   },
   huginmunin: {
     id: "huginmunin",
@@ -36,7 +38,7 @@ const projects = {
     subtitle: "ZOOMAT — Sistema de Gestión de Especies",
     year: "2025 – Present",
     accent: "#34d399",
-    image: "/huginmunin.png",
+    images: ["/hugin/huginmunin.png"],
     overview:
       "Hugin Munin es una plataforma de gestión diseñada para el Zoológico Miguel Álvarez del Toro (ZOOMAT) en Chiapas. Soluciona el problema de la descentralización y pérdida de registros de especies en cautiverio mediante una API robusta y un cliente Angular.",
     challenges: [
@@ -53,6 +55,7 @@ const projects = {
     ],
     tags: ["Angular", "Kotlin", "Ktor", "PostgreSQL", "Hexagonal Architecture", "REST API"],
     github: "https://github.com/ArturoYJ",
+    fit: "cover",
   },
   pillup: {
     id: "pillup",
@@ -60,7 +63,13 @@ const projects = {
     subtitle: "Sistema de Salud Nativo — Android",
     year: "Nov 2025",
     accent: "#60a5fa",
-    image: "/pillup.png",
+    images: [ 
+      "/pillup/vistade3/bienvenida1.png", 
+      "/pillup/vistade3/procesoMedicamentos.png",
+      "/pillup/vistade2/medicamentos.png", 
+      "/pillup/vistade2/registrarMedicamento2.png", 
+      "/pillup/vistade2/verContacto.png",
+    ],
     overview:
       "PillUp es una aplicación móvil nativa para Android orientada a la gestión personal de medicamentos y seguimiento de salud. Implementa una Arquitectura MVVM estricta que garantiza la persistencia del estado de la aplicación ante cualquier cambio de configuración del dispositivo.",
     challenges: [
@@ -77,6 +86,8 @@ const projects = {
     ],
     tags: ["Kotlin", "Jetpack Compose", "Firebase", "MVVM", "LiveData", "ViewModel", "Android"],
     github: "https://github.com/ArturoYJ/PillUp",
+    fit: "contain",
+    aspectRatio: "16 / 10",
   },
 };
 
@@ -176,37 +187,25 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
         {/* Content */}
         <div
           style={{
-            maxWidth: "1100px",
+            maxWidth: "1350px",
             margin: "0 auto",
             padding: "4rem 2rem 6rem",
             display: "grid",
             gridTemplateColumns: "1fr 380px",
-            gap: "4rem",
+            gap: "5rem",
             alignItems: "start",
           }}
         >
           {/* Left — main content */}
           <div>
-            {/* Screenshot */}
-            <div
-              style={{
-                borderRadius: "12px",
-                overflow: "hidden",
-                border: `1px solid ${project.accent}25`,
-                marginBottom: "3rem",
-                aspectRatio: "16/10",
-                position: "relative",
-              }}
-            >
-              <Image
-                src={project.image}
-                alt={`Captura de ${project.title}`}
-                fill
-                sizes="(max-width: 1100px) 100vw, 700px"
-                style={{ objectFit: "cover" }}
-                priority
-              />
-            </div>
+            {/* Carousel */}
+            <ProjectCarousel 
+              images={project.images} 
+              title={project.title} 
+              accent={project.accent} 
+              fit={(project as any).fit} 
+              aspectRatio={(project as any).aspectRatio} 
+            />
 
             {/* Overview */}
             <h2
@@ -291,11 +290,15 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
 
           {/* Right — sidebar */}
           <aside style={{ 
-            position: "sticky", 
-            top: "100px", 
-            height: "fit-content",
-            zIndex: 10
+            height: "100%",
+            position: "relative"
           }}>
+            <div style={{
+              position: "sticky", 
+              top: "20vh", 
+              height: "fit-content",
+              zIndex: 10
+            }}>
             {/* Tech stack */}
             <div
               style={{
@@ -366,7 +369,8 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
                 <span style={{ color: "var(--text-muted)" }}>↗</span>
               </a>
             </div>
-          </aside>
+          </div>
+        </aside>
         </div>
       </main>
     </>
