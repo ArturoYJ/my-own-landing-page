@@ -1,44 +1,44 @@
+// src/components/Stack.tsx
 "use client";
 
 import styles from "./Stack.module.css";
 import { useObserverAnimation } from "@/hooks/useObserverAnimation";
 
 /**
- * ARQUITECTURA DE RECURSOS EXTERNOS
- * Aquí definimos rutas web (URLs). 
- * Ventaja: No ocupan espacio en tu repositorio.
- * Desventaja: Si el sitio externo cae, el logo no se verá.
+ * ARQUITECTURA DE RECURSOS LOCALES
+ * Almacena estos SVGs en tu carpeta public/icons/
+ * Esto elimina la latencia de DNS y bloqueos de red de terceros.
  */
 const stackGroups = [
   {
     category: "Frontend",
     color: "#3b82f6",
-    icon: "/icons/screen.svg",
+    icon: "/icons/frontend.svg",
     skills: [
-      { name: "React.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg" },
-      { name: "Next.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg" },
-      { name: "TypeScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg" },
-      { name: "JavaScript", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg" },
+      { name: "React.js", icon: "/icons/react.svg" },
+      { name: "Next.js", icon: "/icons/next.png" },
+      { name: "TypeScript", icon: "/icons/typeScript.svg" },
+      { name: "JavaScript", icon: "/icons/javaScript.svg" },
     ],
   },
   {
     category: "Backend",
     color: "#10b981",
-    icon: "/icons/backend.svg",
+    icon: "/icons/backend.png",
     skills: [
-      { name: "Node.js", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg" },
-      { name: "Express", icon: "https://img.icons8.com/nolan/64/express-js.png" },
-      { name: "Kotlin", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/kotlin/kotlin-original.svg" },
+      { name: "Node.js", icon: "/icons/node.svg" },
+      { name: "Express", icon: "/icons/express.png" },
+      { name: "Kotlin", icon: "/icons/kotlin.svg" },
     ],
   },
   {
     category: "Databases",
     color: "#f59e0b",
-    icon: "/icons/database.svg",
+    icon: "/icons/db.svg",
     skills: [
-      { name: "PostgreSQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg" },
-      { name: "MySQL", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg" },
-      { name: "Firebase", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original.svg" },
+      { name: "PostgreSQL", icon: "/icons/postgresSQL.svg" },
+      { name: "MySQL", icon: "/icons/mySQL.svg" },
+      { name: "Firebase", icon: "/icons/fireBase.svg" },
     ],
   },
   {
@@ -46,19 +46,19 @@ const stackGroups = [
     color: "#8b5cf6",
     icon: "/icons/cloud.svg",
     skills: [
-      { name: "AWS", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" },
-      { name: "Docker", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-plain-wordmark.svg" },
-      { name: "GitHub Actions", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/githubactions/githubactions-original.svg" },
+      { name: "AWS", icon: "/icons/aws.svg" },
+      { name: "Docker", icon: "/icons/docker.svg" },
+      { name: "GitHub Actions", icon: "/icons/gitHubActions.svg" },
     ],
   },
   {
     category: "Tools",
     color: "#ec4899",
-    icon: "https://img.icons8.com/fluency/48/console.png",
+    icon: "/icons/terminal.png",
     skills: [
-      { name: "Git", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/git/git-original.svg" },
-      { name: "Figma", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/figma/figma-original.svg" },
-      { name: "Postman", icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postman/postman-original.svg" },
+      { name: "Git", icon: "/icons/git.svg" },
+      { name: "Figma", icon: "/icons/figma.svg" },
+      { name: "Postman", icon: "/icons/postman.svg" },
     ],
   },
 ];
@@ -79,7 +79,7 @@ export default function Stack() {
           Stack Técnico
         </h2>
         <p className={styles.sectionDescription}>
-          Tecnologías integradas mediante recursos distribuidos (CDNs).
+          Infraestructura nativa y optimizada para el hilo del compositor.
         </p>
 
         <div className={styles.skillsGridWrapper}>
@@ -88,20 +88,16 @@ export default function Stack() {
               <div key={group.category} className={`stack-col ${styles.stackCol}`}>
                 <div className={styles.categoryHeader}>
                   <span className={styles.categoryIcon} style={{ color: group.color }}>
-                    {group.icon.startsWith("http") || group.icon.startsWith("/") ? (
-                      <img 
-                        src={group.icon} 
-                        alt={group.category} 
-                        style={{ 
-                          width: "25px", 
-                          height: "25px", 
-                          objectFit: "contain",
-                          display: "block"
-                        }} 
-                      />
-                    ) : (
-                      group.icon
-                    )}
+                    <img 
+                      src={group.icon} 
+                      alt={group.category} 
+                      style={{ 
+                        width: "25px", 
+                        height: "25px", 
+                        objectFit: "contain",
+                        display: "block"
+                      }} 
+                    />
                   </span>
                   <span className={styles.categoryTitle}>{group.category}</span>
                 </div>
@@ -110,36 +106,21 @@ export default function Stack() {
                   {group.skills.map((skill) => (
                     <div
                       key={skill.name}
+                      // Pasamos el color como una variable CSS inline para que el CSS Modules lo use en el :hover
+                      style={{ '--group-color': group.color } as React.CSSProperties}
                       className={`skill-row ${styles.skillRow}`}
-                      onMouseEnter={(e) => {
-                        const el = e.currentTarget as HTMLDivElement;
-                        el.style.background = `${group.color}15`;
-                        el.style.borderColor = `${group.color}50`;
-                        el.style.transform = "translateX(5px) scale(1.02)";
-                      }}
-                      onMouseLeave={(e) => {
-                        const el = e.currentTarget as HTMLDivElement;
-                        el.style.background = "rgba(10, 10, 10, 0.4)";
-                        el.style.borderColor = "rgba(148, 142, 157, 0.06)";
-                        el.style.transform = "translateX(0) scale(1)";
-                      }}
                     >
-                      <span className={styles.skillIcon} style={{ color: group.color }}>
+                      <span className={styles.skillIcon}>
                         <img
                           src={skill.icon}
                           alt={`Logo de ${skill.name}`}
                           loading="lazy"
                           decoding="async"
-                          referrerPolicy="no-referrer"
                           style={{
                             width: "20px",
                             height: "20px",
                             objectFit: "contain",
                             display: "block",
-                          }}
-                          // Error handling: si la URL falla, mostramos el nombre
-                          onError={(e) => {
-                            (e.currentTarget as HTMLImageElement).style.display = "none";
                           }}
                         />
                       </span>

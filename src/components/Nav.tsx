@@ -48,7 +48,7 @@ export default function Nav() {
       const section = document.getElementById(sectionId);
       if (section) {
         observer.observe(section);
-      } else if (process.env.NODE_ENV === 'development') {
+      } else if (!isSubpage && process.env.NODE_ENV === 'development') {
         console.warn(`Navigation section not found: #${sectionId}`);
       }
     });

@@ -133,3 +133,21 @@
     margin-bottom: 2.5rem;
   }
 }
+
+.skillRow {
+  background: rgba(10, 10, 10, 0.4);
+  border: 1px solid rgba(148, 142, 157, 0.06);
+  /* Definimos la transición para el Compositor Thread */
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
+              background-color 0.3s ease, 
+              border-color 0.3s ease;
+  will-change: transform;
+}
+
+.skillRow:hover {
+  /* Utilizamos funciones de color CSS relativas si el navegador lo soporta, 
+     o emulamos el canal alpha usando variables y color-mix */
+  background-color: color-mix(in srgb, var(--group-color) 15%, transparent);
+  border-color: color-mix(in srgb, var(--group-color) 50%, transparent);
+  transform: translateX(5px) scale(1.02);
+}

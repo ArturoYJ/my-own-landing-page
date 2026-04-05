@@ -76,22 +76,37 @@ export default function Hero() {
       clearTimeout(timeoutId);
     };
   }, []);
-
+  const sectionRef = useRef<HTMLElement>(null);
   // Parallax y Botón Magnético delegados al Animation Frame
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (prefersReducedMotion) return;
 
     let animationFrameId: number;
+    let isVisible = true; // Control de visibilidad
+
+    // 1. Configuramos el observador de intersección
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        isVisible = entry.isIntersecting;
+      },
+      { threshold: 0 } // Se activa en cuanto un píxel entra/sale de pantalla
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
 
     const handleMouseMove = (e: MouseEvent) => {
+      // 2. Si el Hero no es visible, cortocircuitamos el cálculo (Early Return)
+      if (!isVisible) return;
+
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
 
       animationFrameId = requestAnimationFrame(() => {
         const { clientX, clientY } = e;
         const { innerWidth, innerHeight } = window;
 
-        // 1. Parallax de la foto
         if (photoRef.current) {
           const PARALLAX_DISTANCE = 10;
           const x = (clientX - innerWidth / 2) / innerWidth;
@@ -99,7 +114,6 @@ export default function Hero() {
           photoRef.current.style.transform = `translate(${x * PARALLAX_DISTANCE}px, ${y * PARALLAX_DISTANCE}px)`;
         }
 
-        // 2. Efecto Magnético del Botón Principal
         if (magneticButtonRef.current) {
           const btn = magneticButtonRef.current;
           const rect = btn.getBoundingClientRect();
@@ -110,9 +124,8 @@ export default function Hero() {
           const distanceY = clientY - btnCenterY;
           const distance = Math.sqrt(distanceX ** 2 + distanceY ** 2);
 
-          // Si el cursor está a menos de 100px, atraemos el botón
           if (distance < 100) {
-            const pullX = distanceX * 0.2; // Fuerza magnética
+            const pullX = distanceX * 0.2; 
             const pullY = distanceY * 0.2;
             btn.style.transform = `translate(${pullX}px, ${pullY}px)`;
           } else {
@@ -127,14 +140,15 @@ export default function Hero() {
     return () => {
       if (animationFrameId) cancelAnimationFrame(animationFrameId);
       window.removeEventListener("mousemove", handleMouseMove);
+      observer.disconnect(); // Limpiamos el observador
     };
   }, []);
 
   return (
-    <section id="hero" className={styles.heroSection}>
+  <section id="hero" ref={sectionRef} className={styles.heroSection}>
       <div className={styles.heroContainer}>
         <div>
-          <div className={`hero-tag ${styles.heroTag}`}>
+          <div className={`hero-tag ${styles.heroTag}`} style={{ visibility: 'hidden' }}>
             <span className={styles.tagDot} />
             <span>Disponible para colaborar</span>
           </div>

@@ -134,15 +134,13 @@ function ProjectRow({ project, index }: { project: Project; index: number }) {
               alt={`Captura del proyecto ${project.title}`}
               fill
               sizes="(max-width: 900px) 100vw, 90vw"
-              priority={index === 0}
-              loading={index === 0 ? "eager" : "lazy"}
+              loading="lazy"
               style={{ 
                 objectFit: project.fit || "cover",
                 backgroundColor: project.bgColor || "transparent",
               }}
             />
           </div>
-
           {/* "Ver detalle" label */}
           <div
             className={styles.detailLabel}
