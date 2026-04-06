@@ -1,13 +1,27 @@
 import { notFound } from "next/navigation";
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import Nav from "@/components/Nav";
 import ProjectCarousel from "@/components/ProjectCarousel";
-import { ErrorBoundary } from "@/components/ErrorBoundary";
 
 /* ─── Project data ─── */
-const projects = {
+type ProjectData = {
+  id: string;
+  title: string;
+  subtitle: string;
+  year: string;
+  accent: string;
+  images: string[];
+  overview: string;
+  challenges: string[];
+  results: string[];
+  tags: string[];
+  github: string;
+  fit?: "cover" | "contain";
+  aspectRatio?: string;
+};
+
+const projects: Record<string, ProjectData> = {
   glamstock: {
     id: "glamstock",
     title: "GlamStock",
@@ -203,12 +217,12 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
           {/* Left — main content */}
           <div>
             {/* Carousel */}
-            <ProjectCarousel 
-              images={project.images} 
-              title={project.title} 
-              accent={project.accent} 
-              fit={(project as any).fit} 
-              aspectRatio={(project as any).aspectRatio} 
+            <ProjectCarousel
+              images={project.images}
+              title={project.title}
+              accent={project.accent}
+              fit={project.fit}
+              aspectRatio={project.aspectRatio}
             />
 
             {/* Overview */}
