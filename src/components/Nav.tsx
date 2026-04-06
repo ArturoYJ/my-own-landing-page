@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
+  { href: "#hero", label: "Inicio" },
   { href: "#proyectos", label: "Proyectos" },
   { href: "#stack", label: "Stack" },
   { href: "#sobre-mi", label: "Sobre mí" },
@@ -14,9 +15,10 @@ const navLinks = [
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>("");
   const pathname = usePathname();
   const isSubpage = pathname !== "/";
+  // Initialize activeSection based on whether we're on a subpage
+  const [activeSection, setActiveSection] = useState<string>(isSubpage ? "" : "hero");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -26,36 +28,46 @@ export default function Nav() {
 
   // Smooth scroll indicator: detect which section is in viewport
   useEffect(() => {
-    const observerOptions = {
-      threshold: [0.05, 0.1, 0.2], // Multiple thresholds for better sensitivity
-      rootMargin: "-15% 0px -45% 0px", // Detect section in the upper-middle window of the screen
+    // Only detect sections on the main page
+    if (isSubpage) {
+      return;
+    }
+
+    // Use scroll position instead of IntersectionObserver for more reliable detection
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY;
+      const viewportHeight = window.innerHeight;
+
+      // Sections in order with their offset thresholds
+      const sections = [
+        { id: "hero", offset: 0 },
+        { id: "proyectos", offset: viewportHeight * 0.25 },
+        { id: "stack", offset: viewportHeight * 0.50 },
+        { id: "sobre-mi", offset: viewportHeight * 0.75 },
+        { id: "contacto", offset: viewportHeight * 1.0 },
+      ];
+
+      // Find which section is currently in view
+      for (let i = sections.length - 1; i >= 0; i--) {
+        const section = sections[i];
+        const element = document.getElementById(section.id);
+
+        if (element) {
+          const elementTop = element.offsetTop - 100; // 100px offset for navbar
+
+          if (scrollPosition >= elementTop) {
+            setActiveSection(section.id);
+            break;
+          }
+        }
+      }
     };
 
-    const observer = new IntersectionObserver((entries) => {
-      // Only update state for the section with highest intersection ratio
-      const isIntersecting = entries.filter((e) => e.isIntersecting);
-      if (isIntersecting.length > 0) {
-        // Pick the section occupying the most vertical pixels in the root area
-        const active = isIntersecting.reduce((a, b) =>
-          a.intersectionRect.height > b.intersectionRect.height ? a : b
-        );
-        setActiveSection(active.target.id);
-      }
-    }, observerOptions);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    handleScroll(); // Initial check
 
-    // Observe all sections
-    navLinks.forEach((link) => {
-      const sectionId = link.href.substring(1); // Remove '#' from href
-      const section = document.getElementById(sectionId);
-      if (section) {
-        observer.observe(section);
-      } else if (!isSubpage && process.env.NODE_ENV === 'development') {
-        console.warn(`Navigation section not found: #${sectionId}`);
-      }
-    });
-
-    return () => observer.disconnect();
-  }, []);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [isSubpage]);
 
   // Handle Escape key to close mobile menu
   useEffect(() => {
