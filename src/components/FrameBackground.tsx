@@ -6,18 +6,14 @@ const BASE_OPACITY = 0.40;
 
 export default function FrameBackground() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const [shouldPlay, setShouldPlay] = useState(true);
+  const [shouldPlay] = useState(() => {
+    if (typeof window === 'undefined') return true;
+    return !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  });
 
   useEffect(() => {
-    // Check for reduced motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-      setShouldPlay(false);
-      return;
-    }
-
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !shouldPlay) return;
 
     let ticking = false;
 
@@ -69,7 +65,7 @@ export default function FrameBackground() {
     return () => {
       window.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [shouldPlay]);
 
   if (!shouldPlay) {
     // Fallback: static background for reduced motion preference
