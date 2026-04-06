@@ -7,7 +7,13 @@ import { ReactNode } from "react";
 interface FadeInProps {
   children: ReactNode;
   selector: string;
-  animations?: any;
+  animations?: {
+    opacity?: [number, number];
+    translateY?: [number, number];
+    translateX?: [number, number];
+    scale?: [number, number];
+    filter?: [string, string];
+  };
   duration?: number;
   staggerDelay?: number;
   threshold?: number;
@@ -38,7 +44,7 @@ export default function FadeIn({
   });
 
   return (
-    <div ref={sectionRef as any} className={className}>
+    <div ref={sectionRef as React.RefObject<HTMLDivElement>} className={className}>
       {children}
     </div>
   );
