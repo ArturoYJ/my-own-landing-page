@@ -119,7 +119,7 @@ export default function FrameBackground() {
           transition: "opacity 0.5s ease-out",
         }}
       >
-        <source src="/background.mp4" type="video/mp4" />
+        <source src="/background.webm" type="video/webm" />
         {/* Fallback background if video fails */}
         <div
           style={{
