@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -13,9 +13,21 @@ const navLinks = [
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>("");
+  const [activeSection, setActiveSection] = useState<string>(() => {
+    if (typeof window === "undefined") return "";
+    return window.location.hash.replace("#", "");
+  });
   const pathname = usePathname();
   const isSubpage = pathname !== "/";
+  const fallbackActiveSection = useMemo(() => {
+    if (!isSubpage) return "";
+    const matchingLink = navLinks.find((link) => {
+      const sectionPath = `/${link.href.replace("#", "")}`;
+      return pathname.startsWith(sectionPath);
+    });
+    return matchingLink ? matchingLink.href.substring(1) : "";
+  }, [isSubpage, pathname]);
+  const currentActiveSection = isSubpage ? fallbackActiveSection : activeSection;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -25,6 +37,8 @@ export default function Nav() {
 
   // Smooth scroll indicator: detect which section is in viewport
   useEffect(() => {
+    if (isSubpage) return;
+
     const observerOptions = {
       threshold: [0.05, 0.1, 0.2], // Multiple thresholds for better sensitivity
       rootMargin: "-15% 0px -45% 0px", // Detect section in the upper-middle window of the screen
@@ -54,7 +68,7 @@ export default function Nav() {
     });
 
     return () => observer.disconnect();
-  }, []);
+  }, [isSubpage]);
 
   // Handle Escape key to close mobile menu
   useEffect(() => {
@@ -147,7 +161,7 @@ export default function Nav() {
           {navLinks.map((link) => {
             const resolvedHref = isSubpage ? `/#${link.href.substring(1)}` : link.href;
             const sectionId = link.href.substring(1);
-            const isActive = activeSection === sectionId;
+            const isActive = currentActiveSection === sectionId;
             return (
               <li key={link.href}>
                 <a
@@ -295,7 +309,7 @@ export default function Nav() {
           {navLinks.map((link) => {
             const resolvedHref = isSubpage ? `/#${link.href.substring(1)}` : link.href;
             const sectionId = link.href.substring(1);
-            const isActive = activeSection === sectionId;
+            const isActive = currentActiveSection === sectionId;
             return (
               <a
                 key={link.href}
