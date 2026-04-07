@@ -3,51 +3,8 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useObserverAnimation } from "@/hooks/useObserverAnimation";
+import { projects } from "@/data/projects";
 import styles from "./Projects.module.css";
-
-const projects = [
-  {
-    id: "glamstock",
-    title: "GlamStock",
-    subtitle: "Sistema de Inventarios para PyMEs",
-    shortDesc:
-      'Evolución de monolito a SOA. Validación con Zod que redujo márgen de errores en un 80%. BD PostgreSQL normalizada con 7 entidades para +600 registros de inventario. Actualmente en producción.',
-    tags: ["Next.js", "Express.js", "PostgreSQL", "Docker", "AWS"],
-    year: "Mar 2026",
-    accent: "#a78bfa",
-    image: "/glamstock/glamstock.png",
-    bgDark: false,
-    fit: "cover" as "contain" | "cover",
-    bgColor: "#fefeff",
-  },
-  {
-    id: "huginmunin",
-    title: "Hugin Munin",
-    subtitle: "ZOOMAT — Gestión de Especies en Cautiverio",
-    shortDesc:
-      "Centralización de datos de +200 especies para el Zoológico de Chiapas. API REST en Kotlin/Ktor bajo Arquitectura Hexagonal con desacoplamiento total de lógica de negocio.",
-    tags: ["Angular", "Kotlin", "Ktor", "PostgreSQL"],
-    year: "2025 – Present",
-    accent: "#34d399",
-    image: "/hugin/huginmunin.png",
-    bgDark: true,
-    fit: "cover" as "contain" | "cover",
-  },
-  {
-    id: "pillup",
-    title: "PillUp",
-    subtitle: "Sistema de Salud Nativo — Android",
-    shortDesc:
-      "App nativa Android para gestión de medicamentos. Arquitectura MVVM estricta con ViewModel y LiveData, garantizando persistencia de estado ante cambios de configuración.",
-    tags: ["Kotlin", "Jetpack Compose", "Firebase", "MVVM"],
-    year: "Nov 2025",
-    accent: "#60a5fa",
-    image: "/pillup/original/next.png",
-    bgDark: false,
-    fit: "cover" as "contain" | "cover",
-    bgColor: "#f8fafc",
-  },
-];
 
 
 export default function Projects() {

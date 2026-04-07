@@ -1,6 +1,7 @@
 // src/components/Stack.tsx
 "use client";
 
+import Image from "next/image";
 import styles from "./Stack.module.css";
 import { useObserverAnimation } from "@/hooks/useObserverAnimation";
 
@@ -88,15 +89,17 @@ export default function Stack() {
               <div key={group.category} className={`stack-col ${styles.stackCol}`}>
                 <div className={styles.categoryHeader}>
                   <span className={styles.categoryIcon} style={{ color: group.color }}>
-                    <img 
-                      src={group.icon} 
-                      alt={group.category} 
-                      style={{ 
-                        width: "25px", 
-                        height: "25px", 
+                    <Image
+                      src={group.icon}
+                      alt={group.category}
+                      width={25}
+                      height={25}
+                      style={{
+                        width: "25px",
+                        height: "25px",
                         objectFit: "contain",
-                        display: "block"
-                      }} 
+                        display: "block",
+                      }}
                     />
                   </span>
                   <span className={styles.categoryTitle}>{group.category}</span>
@@ -111,11 +114,12 @@ export default function Stack() {
                       className={`skill-row ${styles.skillRow}`}
                     >
                       <span className={styles.skillIcon}>
-                        <img
+                        <Image
                           src={skill.icon}
                           alt={`Logo de ${skill.name}`}
+                          width={20}
+                          height={20}
                           loading="lazy"
-                          decoding="async"
                           style={{
                             width: "20px",
                             height: "20px",

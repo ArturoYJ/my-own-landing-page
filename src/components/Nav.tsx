@@ -6,19 +6,29 @@ import { usePathname } from "next/navigation";
 
 const navLinks = [
   { href: "#hero", label: "Inicio" },
-  { href: "#proyectos", label: "Proyectos" },
   { href: "#stack", label: "Stack" },
+  { href: "#proyectos", label: "Proyectos" },
   { href: "#sobre-mi", label: "Sobre mí" },
   { href: "#contacto", label: "Contacto" },
 ];
+
+const sectionOrder = navLinks.map((link) => link.href.substring(1));
+
+function getRouteSection(pathname: string) {
+  if (pathname.startsWith("/proyectos")) return "proyectos";
+  if (pathname === "/") return "hero";
+  return "";
+}
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const pathname = usePathname();
   const isSubpage = pathname !== "/";
-  // Initialize activeSection based on whether we're on a subpage
-  const [activeSection, setActiveSection] = useState<string>(isSubpage ? "" : "hero");
+  const [homeActiveSection, setHomeActiveSection] = useState<string>("hero");
+  const activeSection = isSubpage
+    ? getRouteSection(pathname)
+    : homeActiveSection;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -33,40 +43,52 @@ export default function Nav() {
       return;
     }
 
-    // Use scroll position instead of IntersectionObserver for more reliable detection
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      const viewportHeight = window.innerHeight;
+    const getSectionFromScroll = () => {
+      const anchorOffset = 140;
+      const position = window.scrollY + anchorOffset;
+      const sectionsByPosition = sectionOrder
+        .map((id) => ({ id, element: document.getElementById(id) }))
+        .filter((section): section is { id: string; element: HTMLElement } =>
+          Boolean(section.element)
+        )
+        .sort((a, b) => a.element.offsetTop - b.element.offsetTop);
 
-      // Sections in order with their offset thresholds
-      const sections = [
-        { id: "hero", offset: 0 },
-        { id: "proyectos", offset: viewportHeight * 0.25 },
-        { id: "stack", offset: viewportHeight * 0.50 },
-        { id: "sobre-mi", offset: viewportHeight * 0.75 },
-        { id: "contacto", offset: viewportHeight * 1.0 },
-      ];
+      for (let i = sectionsByPosition.length - 1; i >= 0; i--) {
+        const section = sectionsByPosition[i];
 
-      // Find which section is currently in view
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
-        const element = document.getElementById(section.id);
-
-        if (element) {
-          const elementTop = element.offsetTop - 100; // 100px offset for navbar
-
-          if (scrollPosition >= elementTop) {
-            setActiveSection(section.id);
-            break;
-          }
+        if (position >= section.element.offsetTop) {
+          return section.id;
         }
+      }
+
+      return "hero";
+    };
+
+    const handleScroll = () => {
+      setHomeActiveSection(getSectionFromScroll());
+    };
+
+    const updateFromHash = () => {
+      const hashSection = window.location.hash.replace("#", "");
+      if (hashSection && sectionOrder.includes(hashSection)) {
+        setHomeActiveSection(hashSection);
+      } else {
+        handleScroll();
       }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    handleScroll(); // Initial check
+    window.addEventListener("hashchange", updateFromHash, { passive: true });
 
-    return () => window.removeEventListener("scroll", handleScroll);
+    updateFromHash();
+    // Ensure state sync after browser scroll restoration/anchor jumps.
+    const syncTimer = window.setTimeout(handleScroll, 120);
+
+    return () => {
+      window.clearTimeout(syncTimer);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("hashchange", updateFromHash);
+    };
   }, [isSubpage]);
 
   // Handle Escape key to close mobile menu

@@ -148,7 +148,7 @@ export default function Hero() {
   <section id="hero" ref={sectionRef} className={styles.heroSection}>
       <div className={styles.heroContainer}>
         <div>
-          <div className={`hero-tag ${styles.heroTag}`} style={{ visibility: 'hidden' }}>
+          <div className={`hero-tag ${styles.heroTag}`}>
             <span className={styles.tagDot} />
             <span>Disponible para colaborar</span>
           </div>

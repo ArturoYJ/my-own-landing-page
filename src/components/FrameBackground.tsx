@@ -116,14 +116,7 @@ export default function FrameBackground() {
         }}
       >
         <source src="/background.webm" type="video/webm" />
-        {/* Fallback background if video fails */}
-        <div
-          style={{
-            width: "100%",
-            height: "100%",
-            background: "radial-gradient(ellipse at center, rgba(167, 139, 250, 0.05) 0%, transparent 70%)",
-          }}
-        />
+        Tu navegador no soporta video en segundo plano.
       </video>
     </div>
   );
