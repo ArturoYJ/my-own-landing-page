@@ -98,14 +98,14 @@ export default function ProjectCarousel({
               transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
             }}
             onMouseOver={(e) => {
-              (e.currentTarget as any).style.background = accent;
-              (e.currentTarget as any).style.borderColor = accent;
-              (e.currentTarget as any).style.transform = "translateY(-50%) scale(1.1)";
+              (e.currentTarget as HTMLButtonElement).style.background = accent;
+              (e.currentTarget as HTMLButtonElement).style.borderColor = accent;
+              (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-50%) scale(1.1)";
             }}
             onMouseOut={(e) => {
-              (e.currentTarget as any).style.background = "rgba(10, 10, 10, 0.15)";
-              (e.currentTarget as any).style.borderColor = "rgba(255, 255, 255, 0.05)";
-              (e.currentTarget as any).style.transform = "translateY(-50%) scale(1)";
+              (e.currentTarget as HTMLButtonElement).style.background = "rgba(10, 10, 10, 0.15)";
+              (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255, 255, 255, 0.05)";
+              (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-50%) scale(1)";
             }}
             aria-label="Imagen anterior"
           >
@@ -133,14 +133,14 @@ export default function ProjectCarousel({
               transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)"
             }}
             onMouseOver={(e) => {
-              (e.currentTarget as any).style.background = accent;
-              (e.currentTarget as any).style.borderColor = accent;
-              (e.currentTarget as any).style.transform = "translateY(-50%) scale(1.1)";
+              (e.currentTarget as HTMLButtonElement).style.background = accent;
+              (e.currentTarget as HTMLButtonElement).style.borderColor = accent;
+              (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-50%) scale(1.1)";
             }}
             onMouseOut={(e) => {
-              (e.currentTarget as any).style.background = "rgba(10, 10, 10, 0.15)";
-              (e.currentTarget as any).style.borderColor = "rgba(255, 255, 255, 0.05)";
-              (e.currentTarget as any).style.transform = "translateY(-50%) scale(1)";
+              (e.currentTarget as HTMLButtonElement).style.background = "rgba(10, 10, 10, 0.15)";
+              (e.currentTarget as HTMLButtonElement).style.borderColor = "rgba(255, 255, 255, 0.05)";
+              (e.currentTarget as HTMLButtonElement).style.transform = "translateY(-50%) scale(1)";
             }}
             aria-label="Siguiente imagen"
           >

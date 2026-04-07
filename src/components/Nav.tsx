@@ -5,17 +5,30 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navLinks = [
-  { href: "#proyectos", label: "Proyectos" },
+  { href: "#hero", label: "Inicio" },
   { href: "#stack", label: "Stack" },
+  { href: "#proyectos", label: "Proyectos" },
   { href: "#sobre-mi", label: "Sobre mí" },
+  { href: "#contacto", label: "Contacto" },
 ];
+
+const sectionOrder = navLinks.map((link) => link.href.substring(1));
+
+function getRouteSection(pathname: string) {
+  if (pathname.startsWith("/proyectos")) return "proyectos";
+  if (pathname === "/") return "hero";
+  return "";
+}
 
 export default function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>("");
   const pathname = usePathname();
   const isSubpage = pathname !== "/";
+  const [homeActiveSection, setHomeActiveSection] = useState<string>("hero");
+  const activeSection = isSubpage
+    ? getRouteSection(pathname)
+    : homeActiveSection;
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -25,36 +38,58 @@ export default function Nav() {
 
   // Smooth scroll indicator: detect which section is in viewport
   useEffect(() => {
-    const observerOptions = {
-      threshold: [0.05, 0.1, 0.2], // Multiple thresholds for better sensitivity
-      rootMargin: "-15% 0px -45% 0px", // Detect section in the upper-middle window of the screen
+    // Only detect sections on the main page
+    if (isSubpage) {
+      return;
+    }
+
+    const getSectionFromScroll = () => {
+      const anchorOffset = 140;
+      const position = window.scrollY + anchorOffset;
+      const sectionsByPosition = sectionOrder
+        .map((id) => ({ id, element: document.getElementById(id) }))
+        .filter((section): section is { id: string; element: HTMLElement } =>
+          Boolean(section.element)
+        )
+        .sort((a, b) => a.element.offsetTop - b.element.offsetTop);
+
+      for (let i = sectionsByPosition.length - 1; i >= 0; i--) {
+        const section = sectionsByPosition[i];
+
+        if (position >= section.element.offsetTop) {
+          return section.id;
+        }
+      }
+
+      return "hero";
     };
 
-    const observer = new IntersectionObserver((entries) => {
-      // Only update state for the section with highest intersection ratio
-      const isIntersecting = entries.filter((e) => e.isIntersecting);
-      if (isIntersecting.length > 0) {
-        // Pick the section occupying the most vertical pixels in the root area
-        const active = isIntersecting.reduce((a, b) =>
-          a.intersectionRect.height > b.intersectionRect.height ? a : b
-        );
-        setActiveSection(active.target.id);
-      }
-    }, observerOptions);
+    const handleScroll = () => {
+      setHomeActiveSection(getSectionFromScroll());
+    };
 
-    // Observe all sections
-    navLinks.forEach((link) => {
-      const sectionId = link.href.substring(1); // Remove '#' from href
-      const section = document.getElementById(sectionId);
-      if (section) {
-        observer.observe(section);
-      } else if (!isSubpage && process.env.NODE_ENV === 'development') {
-        console.warn(`Navigation section not found: #${sectionId}`);
+    const updateFromHash = () => {
+      const hashSection = window.location.hash.replace("#", "");
+      if (hashSection && sectionOrder.includes(hashSection)) {
+        setHomeActiveSection(hashSection);
+      } else {
+        handleScroll();
       }
-    });
+    };
 
-    return () => observer.disconnect();
-  }, []);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    window.addEventListener("hashchange", updateFromHash, { passive: true });
+
+    updateFromHash();
+    // Ensure state sync after browser scroll restoration/anchor jumps.
+    const syncTimer = window.setTimeout(handleScroll, 120);
+
+    return () => {
+      window.clearTimeout(syncTimer);
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("hashchange", updateFromHash);
+    };
+  }, [isSubpage]);
 
   // Handle Escape key to close mobile menu
   useEffect(() => {

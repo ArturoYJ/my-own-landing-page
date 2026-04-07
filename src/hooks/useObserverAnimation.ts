@@ -28,12 +28,30 @@ export function useObserverAnimation({
   const ref = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    const getScopedTargets = () => {
+      const root = ref.current;
+      if (!root) return [] as HTMLElement[];
+
+      const targets = Array.from(root.querySelectorAll<HTMLElement>(selector));
+      if (root.matches(selector)) {
+        targets.unshift(root);
+      }
+
+      return targets;
+    };
+
     // 1. Accesibilidad: Verificamos Preferencias del Sistema
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     
     // Si prefiere movimiento reducido, no mutamos el DOM. 
     // Simplemente no activamos la animación. El CSS base debe tener opacidad 1.
     if (skipIfReducedMotion && prefersReduced) {
+      const targets = getScopedTargets();
+      targets.forEach((target) => {
+        target.style.opacity = '1';
+        target.style.transform = 'none';
+        target.style.filter = 'none';
+      });
       return; 
     }
 
@@ -44,6 +62,8 @@ export function useObserverAnimation({
             // Lazy load de Anime.js (Optimización de Chunking)
             import('animejs').then((mod) => {
               const { animate, stagger } = mod;
+                const targets = getScopedTargets();
+                if (targets.length === 0) return;
 
               const animationConfig = {
                 ...animations,
@@ -52,7 +72,7 @@ export function useObserverAnimation({
                 ...(staggerDelay > 0 && { delay: stagger(staggerDelay) }),
               };
 
-              animate(selector, animationConfig);
+                animate(targets, animationConfig);
             }).catch(console.error);
 
             // Una vez animado, desconectamos para ahorrar recursos

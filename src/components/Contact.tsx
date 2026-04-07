@@ -42,7 +42,7 @@ const contactLinks = [
 
 export default function Contact() {
   const sectionRef = useObserverAnimation({
-    selector: ".contact-card",
+    selector: ".contact-heading, .contact-card",
     duration: 450,
     staggerDelay: 100,
     threshold: 0.2,

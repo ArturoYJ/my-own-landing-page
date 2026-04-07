@@ -146,16 +146,6 @@ button:focus:not(:focus-visible) {
   to { opacity: 1; transform: translateX(0) scale(1); }
 }
 
-/* ─── Noise Texture Overlay ─── */
-.noise-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 1;
-  opacity: 0.025;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  background-size: 200px 200px;
-}
 
 /* ─── Scrollbar ─── */
 ::-webkit-scrollbar { width: 4px; }
@@ -200,48 +190,50 @@ button:focus:not(:focus-visible) {
     animation: none !important;
     transition: none !important;
   }
+
+  .hero-tag,
+  .hero-name,
+  .hero-role-line,
+  .hero-desc,
+  .hero-ctas,
+  .hero-photo,
+  .stat-item,
+  .project-row,
+  .stack-col,
+  .about-col,
+  .contact-heading,
+  .contact-card {
+    opacity: 1 !important;
+    transform: none !important;
+    filter: none !important;
+  }
 }
 
 /* ─── Responsive Design ─── */
 @media (max-width: 768px) {
-  /* Update spacing variables for tablet */
   :root {
     --section-padding-vertical: 4rem;
   }
 
-  /* Nav adjustments */
   header {
     padding: 0 1rem !important;
   }
 
-  /* Hero-specific mobile adjustments */
-  h1 {
-    font-size: clamp(2rem, 6vw, 4rem) !important;
-  }
-
-  h2 {
-    font-size: clamp(1.5rem, 5vw, 2.2rem) !important;
-  }
-
-  /* Grid breakpoints */
-  [style*="grid-template-columns: 1fr 1fr"]  {
+  .project-detail-grid {
     grid-template-columns: 1fr !important;
-    gap: 1.5rem !important;
+    gap: 2rem !important;
   }
 
-  /* Contact cards adjustment */
-  .contact-card {
-    flex-direction: column !important;
-    text-align: center !important;
-  }
-
-  .contact-card > span:last-child {
-    margin-left: 0 !important;
+  .project-detail-sidebar,
+  .project-detail-sticky,
+  .project-detail-stack-sticky,
+  .project-detail-link-sticky {
+    position: static !important;
+    top: auto !important;
   }
 }
 
 @media (max-width: 640px) {
-  /* Mobile viewport */
   :root {
     --section-padding-horizontal: 1rem;
   }
@@ -250,57 +242,14 @@ button:focus:not(:focus-visible) {
     font-size: 0.95rem;
   }
 
-  /* Reduce all padding */
-  [style*="padding"] {
-    padding: clamp(1rem, 4vw, 1.5rem) !important;
-  }
-
-  /* Hero section mobile */
-  h1 {
-    font-size: clamp(1.75rem, 5vw, 3rem) !important;
-    line-height: 1.1 !important;
-  }
-
-  /* Prevent grid layouts > 2 columns */
-  [style*="gridTemplateColumns"] {
-    grid-template-columns: 1fr !important;
-    gap: 1rem !important;
-  }
-
-  /* Stack section - single column */
   .stack-col {
     min-width: 100% !important;
   }
 
-  /* Reduce font sizes */
   .section-label {
     font-size: 0.65rem;
   }
 
-  /* Button sizing */
-  a[style*="padding: 0.85rem"] {
-    padding: 0.75rem 1.5rem !important;
-    font-size: 0.8rem !important;
-  }
-
-  a[style*="padding: 1rem"] {
-    padding: 0.75rem 1.5rem !important;
-    font-size: 0.85rem !important;
-  }
-
-  /* Flexible flexbox */
-  [style*="display: flex"] {
-    flex-direction: column !important;
-    gap: 1rem !important;
-  }
-
-  /* Images full-width on mobile */
-  img {
-    width: 100% !important;
-    height: auto !important;
-  }
-
-  /* Scrollbar thinner on mobile */
   ::-webkit-scrollbar {
     width: 3px;
   }
@@ -311,12 +260,6 @@ button:focus:not(:focus-visible) {
   :root {
     --section-padding-vertical: 5rem;
     --section-padding-horizontal: 1.5rem;
-  }
-
-  /* Adjust hero grid */
-  [style*="gridTemplateColumns: 1fr auto"] {
-    grid-template-columns: 1fr !important;
-    gap: 3rem !important;
   }
 }
 
