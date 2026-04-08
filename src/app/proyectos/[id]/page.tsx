@@ -111,7 +111,7 @@ export default async function ProjectDetail({ params }: { params: Promise<Params
             display: "grid",
             gridTemplateColumns: "1fr 380px",
             gap: "5rem",
-            alignItems: "stretch",
+            alignItems: "start",
           }}
         >
           {/* Left — main content */}
