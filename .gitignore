@@ -39,3 +39,10 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI agent configuration & local workspace files
+AGENTS.md
+CLAUDE.md
+.agent/
+.claude/
+/stitch_design.png
